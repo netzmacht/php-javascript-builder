@@ -1,0 +1,22 @@
+{
+    "name": "netzmacht/php-javascript-builder",
+    "description": "PHP Javascript builder library",
+    "type": "library",
+    "require": {
+        "symfony/event-dispatcher": "~2.3"
+    },
+    "license": "LGPL 3.0",
+    "authors": [
+        {
+            "name": "David Molineus",
+            "email": "david.molineus@netzmacht.de"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Netzmacht\\Javascript": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
