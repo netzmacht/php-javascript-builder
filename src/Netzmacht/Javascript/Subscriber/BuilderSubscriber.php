@@ -20,6 +20,11 @@ use Netzmacht\Javascript\Type\Value\ConvertsToArray;
 use Netzmacht\Javascript\Type\Value\ConvertsToJson;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Class BuilderSubscriber subscribes the builder events.
+ *
+ * @package Netzmacht\Javascript\Subscriber
+ */
 class BuilderSubscriber implements EventSubscriberInterface
 {
     /**
@@ -43,7 +48,9 @@ class BuilderSubscriber implements EventSubscriberInterface
     /**
      * Handle the build value event.
      *
-     * @param BuildValueEvent $event
+     * @param BuildValueEvent $event The build value event.
+     *
+     * @return void
      */
     public function handleBuildValue(BuildValueEvent $event)
     {
@@ -83,6 +90,8 @@ class BuilderSubscriber implements EventSubscriberInterface
      * Create reference.
      *
      * @param GetReferenceEvent $event The subscribed event.
+     *
+     * @return void
      */
     public function handleGetReference(GetReferenceEvent $event)
     {
@@ -121,7 +130,7 @@ class BuilderSubscriber implements EventSubscriberInterface
     public function buildArray($data, Builder $builder)
     {
         $data = array_map(
-            function($item) use ($builder) {
+            function ($item) use ($builder) {
                 return $builder->buildValue($item, $builder::VALUE_REFERENCE_REQUIRED);
             },
             $data
@@ -158,8 +167,9 @@ class BuilderSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Check is
-     * @param $value
+     * Check if value can be referenced.
+     *
+     * @param mixed $value The value.
      *
      * @return bool
      */

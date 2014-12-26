@@ -17,29 +17,33 @@ use Netzmacht\Javascript\Event\CompileEvent;
 use Netzmacht\Javascript\Event\GetReferenceEvent;
 use Netzmacht\Javascript\Exception\BuildValueFailed;
 use Netzmacht\Javascript\Output;
-use Netzmacht\Javascript\Type\Call\AbstractCall;
 use Netzmacht\LeafletPHP\JavaScript\Closure;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class CompileSubscriber
+ * Class CompileSubscriber subscribes event which occurs during the compile process.
  *
  * @package Netzmacht\Javascript\Builder
  */
 class CompileSubscriber implements EventSubscriberInterface
 {
     /**
+     * The builder.
+     *
      * @var Builder
      */
     private $builder;
 
     /**
+     * The output.
+     *
      * @var Output
      */
     private $output;
 
     /**
-     * Stack of instances b
+     * Stack of instances.
+     *
      * @var array
      */
     private $stack = array();
@@ -50,7 +54,7 @@ class CompileSubscriber implements EventSubscriberInterface
      * @param Builder $builder The builder.
      * @param Output  $output  The output.
      */
-    function __construct(Builder $builder, Output $output)
+    public function __construct(Builder $builder, Output $output)
     {
         $this->builder = $builder;
         $this->output  = $output;
@@ -73,6 +77,8 @@ class CompileSubscriber implements EventSubscriberInterface
      *
      * @param BuildValueEvent $event The Subscribed event.
      *
+     * @return void
+     *
      * @throws BuildValueFailed If value could not being build.
      */
     public function handleClosures(BuildValueEvent $event)
@@ -89,6 +95,8 @@ class CompileSubscriber implements EventSubscriberInterface
      *
      * @param CompileEvent $event The subscribed event.
      *
+     * @return void
+     *
      * @throws BuildValueFailed If value could not being build.
      */
     public function handleCompile(CompileEvent $event)
@@ -100,6 +108,13 @@ class CompileSubscriber implements EventSubscriberInterface
         $this->compile($event->getObject(), $event->getBuilder(), $event->getOutput());
     }
 
+    /**
+     * Handle get reference event.
+     *
+     * @param GetReferenceEvent $event The subscribed event.
+     *
+     * @return void
+     */
     public function handleGetReference(GetReferenceEvent $event)
     {
         $object = $event->getObject();
@@ -109,11 +124,13 @@ class CompileSubscriber implements EventSubscriberInterface
     /**
      * Compile an object.
      *
-     * @param         $object
-     * @param Builder $builder
-     * @param Output  $output
+     * @param mixed   $object  The object being compiled.
+     * @param Builder $builder The builder.
+     * @param Output  $output  The putput.
      *
-     * @throws BuildValueFailed
+     * @return void
+     *
+     * @throws BuildValueFailed If building a value failed.
      */
     public function compile($object, Builder $builder, Output $output)
     {
@@ -125,19 +142,5 @@ class CompileSubscriber implements EventSubscriberInterface
 
             $output->addLines($compiled);
         }
-    }
-
-    /**
-     * Check is
-     * @param $value
-     *
-     * @return bool
-     */
-    private function canBeReferenced($value)
-    {
-        return is_object($value)
-        && (!$value instanceof ConvertsToArray)
-        && (!$value instanceof ConvertsToJson)
-        && (!$value instanceof AbstractCall);
     }
 }

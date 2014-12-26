@@ -19,7 +19,7 @@ namespace Netzmacht\Javascript\Type\Value;
 interface ConvertsToArray
 {
     /**
-     * Array.
+     * Convert object to an array.
      *
      * @return array
      */

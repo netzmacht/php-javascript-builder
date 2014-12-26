@@ -34,7 +34,7 @@ class MethodCall extends FunctionCall
      * @param string $name      Function name.
      * @param array  $arguments Method arguments.
      */
-    function __construct($object, $name, array $arguments = array())
+    public function __construct($object, $name, array $arguments = array())
     {
         parent::__construct($name, $arguments);
 

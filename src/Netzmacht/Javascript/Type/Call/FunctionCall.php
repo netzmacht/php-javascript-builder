@@ -13,6 +13,11 @@ namespace Netzmacht\Javascript\Type\Call;
 
 use Netzmacht\Javascript\Builder;
 
+/**
+ * Class FunctionCall is used for named function calls. They have to be defined somewhere else.
+ *
+ * @package Netzmacht\Javascript\Type\Call
+ */
 class FunctionCall extends AbstractCall
 {
     /**
@@ -29,7 +34,7 @@ class FunctionCall extends AbstractCall
      * @param array  $arguments  Method arguments.
      * @param null   $definition Linked definition.
      */
-    function __construct($name, array $arguments = array(), $definition = null)
+    public function __construct($name, array $arguments = array(), $definition = null)
     {
         parent::__construct($arguments, $definition);
 

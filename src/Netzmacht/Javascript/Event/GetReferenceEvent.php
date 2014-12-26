@@ -39,9 +39,9 @@ class GetReferenceEvent extends Event
     /**
      * Construct.
      *
-     * @param $object
+     * @param object $object The object which should be referenced.
      */
-    function __construct($object)
+    public function __construct($object)
     {
         $this->object = $object;
     }
@@ -69,7 +69,7 @@ class GetReferenceEvent extends Event
     /**
      * Set the object reference name.
      *
-     * @param string $reference The reference name,
+     * @param string $reference The reference name.
      *
      * @return $this
      */

@@ -27,6 +27,7 @@ class CompileEvent extends Event
 
     /**
      * The object being build.
+     *
      * @var object
      */
     private $object;
@@ -52,7 +53,7 @@ class CompileEvent extends Event
      * @param Builder $builder The javascript builder.
      * @param Output  $output  The generated output.
      */
-    function __construct($object, Builder $builder, Output $output)
+    public function __construct($object, Builder $builder, Output $output)
     {
         $this->object  = $object;
         $this->builder = $builder;

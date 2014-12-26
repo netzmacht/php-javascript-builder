@@ -12,7 +12,7 @@
 namespace Netzmacht\Javascript;
 
 /**
- * Class Output
+ * Class Output collects all output during compiling.
  *
  * @package Netzmacht\Javascript
  */

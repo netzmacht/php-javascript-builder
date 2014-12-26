@@ -39,10 +39,10 @@ class Compiler
     /**
      * Construct.
      *
-     * @param Builder $builder
-     * @param EventDispatcher $dispatcher
+     * @param Builder         $builder    The builder.
+     * @param EventDispatcher $dispatcher The event dispatcher.
      */
-    function __construct(Builder $builder, EventDispatcher $dispatcher)
+    public function __construct(Builder $builder, EventDispatcher $dispatcher)
     {
         $this->builder    = $builder;
         $this->dispatcher = $dispatcher;

@@ -13,6 +13,11 @@ namespace Netzmacht\Javascript\Type\Call;
 
 use Netzmacht\Javascript\Type\ConvertsToJavascript;
 
+/**
+ * Class AbstractCall is the base class for call representations.
+ *
+ * @package Netzmacht\Javascript\Type\Call
+ */
 abstract class AbstractCall implements ConvertsToJavascript
 {
     /**
@@ -25,11 +30,11 @@ abstract class AbstractCall implements ConvertsToJavascript
     /**
      * Construct.
      *
-     * @param array $arguments  Method arguments.
+     * @param array $arguments Method arguments.
      */
-    function __construct(array $arguments = array())
+    public function __construct(array $arguments = array())
     {
-        $this->arguments  = $arguments;
+        $this->arguments = $arguments;
     }
 
     /**

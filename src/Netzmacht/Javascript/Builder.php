@@ -18,17 +18,19 @@ use Netzmacht\Javascript\Exception\GetReferenceFailed;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class Builder
+ * Class Builder provides methods to build javascript for several input types.
  *
  * @package Netzmacht\Javascript
  */
 class Builder
 {
-    const VALUE_DEFINE = 0;
+    const VALUE_DEFINE              = 0;
     const VALUE_REFERENCE_PREFERRED = 1;
     const VALUE_REFERENCE_REQUIRED  = 2;
 
     /**
+     * The event dispatcher.
+     *
      * @var EventDispatcherInterface
      */
     private $dispatcher;
@@ -36,15 +38,15 @@ class Builder
     /**
      * Construct.
      *
-     * @param EventDispatcherInterface $dispatcher
+     * @param EventDispatcherInterface $dispatcher The event dispatcher.
      */
-    function __construct(EventDispatcherInterface $dispatcher)
+    public function __construct(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
     }
 
     /**
-     * Build a value for
+     * Build javascript value for a given input.
      *
      * @param mixed $value      The given value.
      * @param int   $referenced Value reference state.
@@ -68,7 +70,7 @@ class Builder
     /**
      * Build a list of arguments.
      *
-     * @param array $arguments
+     * @param array $arguments List of arguments.
      *
      * @return string
      */
@@ -86,11 +88,11 @@ class Builder
     /**
      * Build reference of given variable/object.
      *
-     * @param $object
+     * @param object $object Build reference for an object.
      *
      * @return string
      *
-     * @throws GetReferenceFailed
+     * @throws GetReferenceFailed If no reference was created.
      */
     public function buildReference($object)
     {
