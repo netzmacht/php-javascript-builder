@@ -41,9 +41,9 @@ class EncodeValueEvent extends Event
     /**
      * The created result.
      *
-     * @var string
+     * @var array
      */
-    private $result;
+    private $lines = array();
 
     /**
      * Successful state.
@@ -115,24 +115,45 @@ class EncodeValueEvent extends Event
     /**
      * Get the result.
      *
-     * @return mixed
+     * @return array
      */
-    public function getResult()
+    public function getLines()
     {
-        return $this->result;
+        return $this->lines;
     }
 
     /**
-     * Set the result.
+     * Add a result line.
      *
-     * @param mixed $result The encoded javascript result.
+     * @param mixed $result     The encoded javascript result.
+     * @param bool  $successful Mark result as successful.
      *
      * @return $this
      */
-    public function setResult($result)
+    public function addLine($result, $successful = true)
     {
-        $this->result     = $result;
-        $this->successful = true;
+        $this->lines[] = $result;
+
+        if ($successful) {
+            $this->successful = true;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add multiple lines.
+     *
+     * @param array $lines      The encoded javascript result as lines.
+     * @param bool  $successful Mark result as successful.
+     *
+     * @return $this
+     */
+    public function addLines(array $lines, $successful = true)
+    {
+        foreach ($lines as $line) {
+            $this->addLine($line, $successful);
+        }
 
         return $this;
     }

@@ -62,27 +62,27 @@ class EncoderSubscriber implements EventSubscriberInterface
         $value   = $event->getValue();
 
         if ($value instanceof ConvertsToJavascript) {
-            $event->setResult($value->encode($encoder));
+            $event->addLine($value->encode($encoder));
         }
 
         if ($event->getReferenced() === $encoder::VALUE_REFERENCE_REQUIRED) {
             if ($this->canBeReferenced($value)) {
-                $event->setResult($encoder->encodeReference($value));
+                $event->addLine($encoder->encodeReference($value));
 
                 return;
             } elseif ($value instanceof AbstractCall) {
-                $event->setResult($value->encode($encoder, false));
+                $event->addLine($value->encode($encoder, false));
 
                 return;
             }
         }
 
         if (in_array(gettype($value), static::$native)) {
-            $event->setResult($this->encodeNative($value));
+            $event->addLine($this->encodeNative($value));
         } elseif ($value instanceof ConvertsToJson) {
-            $event->setResult($value->toJson());
+            $event->addLine($value->toJson());
         } elseif ($this->isArray($value)) {
-            $event->setResult($this->encodeArray($value, $encoder, $event->getJsonFlags()));
+            $event->addLine($this->encodeArray($value, $encoder, $event->getJsonFlags()));
         }
     }
 

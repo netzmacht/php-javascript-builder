@@ -61,7 +61,7 @@ class Encoder
         $this->dispatcher->dispatch($event::NAME, $event);
 
         if ($event->isSuccessful()) {
-            return $event->getResult();
+            return implode("\n", $event->getLines());
         }
 
         throw new EncodeValueFailed($value, $referenced);
