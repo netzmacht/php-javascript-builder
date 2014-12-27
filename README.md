@@ -36,7 +36,6 @@ require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 use Netzmacht\Javascript\Encoder;
 use Netzmacht\Javascript\Builder;
-use Netzmacht\Javascript\Subscriber;
 use Netzmacht\Javascript\Subscriber\EncoderSubscriber;
 use Netzmacht\Javascript\Type\ConvertsToJavascript;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -63,6 +62,7 @@ $test = new Name();
 $test->firstName = 'Max';
 $test->lastName  = 'Mustermann';
 
+// outputs {firstName: "Max", lastName: "Mustermann"}
 echo $compiler->build($test);
 ```
 
