@@ -21,6 +21,54 @@ This library can be installed using composer:
 $ php composer.phar require netzmacht/php-javascript-builder:~1.0
 ```
 
+Usage
+------
+
+The easiest way to implement the javascript encoding feature is to implement the `ConvertsToJavascript` interface. Then
+the encoder uses the provides `encode` method to encode the object.
+
+See the example below:
+
+```php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Netzmacht\Javascript\Encoder;
+use Netzmacht\Javascript\Builder;
+use Netzmacht\Javascript\Subscriber;
+use Netzmacht\Javascript\Subscriber\EncoderSubscriber;
+use Netzmacht\Javascript\Type\ConvertsToJavascript;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+
+$dispatcher = new EventDispatcher();
+$dispatcher->addSubscriber(new EncoderSubscriber());
+
+$builder  = new Encoder($dispatcher);
+$compiler = new Builder($builder, $dispatcher);
+
+class Name implements ConvertsToJavascript
+{
+    public $firstName;
+
+    public $lastName;
+    
+    public function encode(Encoder $builder, $finish = true)
+    {
+        return $builder->encodeValue(array('firstName' => $this->firstName, 'lastName' => $this->lastName));
+    }
+}
+
+$test = new Name();
+$test->firstName = 'Max';
+$test->lastName  = 'Mustermann';
+
+echo $compiler->build($test);
+```
+
+Instead you integrating the encoding into the object you can also implement an event subscriber.
+
+
 Requirements
 ------------
 
