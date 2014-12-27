@@ -21,6 +21,11 @@
             "Netzmacht\\Javascript": "src/"
         }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
