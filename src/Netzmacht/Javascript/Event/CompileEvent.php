@@ -11,13 +11,13 @@
 
 namespace Netzmacht\Javascript\Event;
 
-use Netzmacht\Javascript\Builder;
+use Netzmacht\Javascript\Encoder;
 use Netzmacht\Javascript\Subscriber;
 use Netzmacht\Javascript\Output;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class CompileEvent is emitted when an object is being build.
+ * Class CompileEvent is emitted when an object is being encoded.
  *
  * @package Netzmacht\Javascript\Event
  */
@@ -26,18 +26,18 @@ class CompileEvent extends Event
     const NAME = 'javascript-builder.compile';
 
     /**
-     * The object being build.
+     * The object being encoded.
      *
      * @var object
      */
     private $object;
 
     /**
-     * The javascript builder.
+     * The javascript encoder.
      *
-     * @var Builder
+     * @var Encoder
      */
-    private $builder;
+    private $encoder;
 
     /**
      * The compile output.
@@ -47,21 +47,28 @@ class CompileEvent extends Event
     private $output;
 
     /**
+     * Success state.
+     *
+     * @var bool
+     */
+    private $successful = false;
+
+    /**
      * Construct.
      *
-     * @param object  $object  The object being build.
-     * @param Builder $builder The javascript builder.
+     * @param object  $object  The object being encoded.
+     * @param Encoder $encoder The javascript encoder.
      * @param Output  $output  The generated output.
      */
-    public function __construct($object, Builder $builder, Output $output)
+    public function __construct($object, Encoder $encoder, Output $output)
     {
         $this->object  = $object;
-        $this->builder = $builder;
+        $this->encoder = $encoder;
         $this->output  = $output;
     }
 
     /**
-     * Get the object build compiled.
+     * Get the object which is compiled.
      *
      * @return object
      */
@@ -71,13 +78,13 @@ class CompileEvent extends Event
     }
 
     /**
-     * Get the builder.
+     * Get the encoder.
      *
-     * @return Builder
+     * @return Encoder
      */
-    public function getBuilder()
+    public function getEncoder()
     {
-        return $this->builder;
+        return $this->encoder;
     }
 
     /**
@@ -88,5 +95,27 @@ class CompileEvent extends Event
     public function getOutput()
     {
         return $this->output;
+    }
+
+    /**
+     * Mark compiling as successful.
+     *
+     * @return $this
+     */
+    public function setSuccessful()
+    {
+        $this->successful = true;
+
+        return $this;
+    }
+
+    /**
+     * Get success state.
+     *
+     * @return boolean
+     */
+    public function isSuccessful()
+    {
+        return $this->successful;
     }
 }

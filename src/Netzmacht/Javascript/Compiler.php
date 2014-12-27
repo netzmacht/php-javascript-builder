@@ -23,11 +23,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatche
 class Compiler
 {
     /**
-     * The javascript builder.
+     * The javascript encoder.
      *
-     * @var Builder
+     * @var Encoder
      */
-    private $builder;
+    private $encoder;
 
     /**
      * The event dispatcher.
@@ -39,23 +39,23 @@ class Compiler
     /**
      * Construct.
      *
-     * @param Builder         $builder    The builder.
+     * @param Encoder         $encoder    The encoder.
      * @param EventDispatcher $dispatcher The event dispatcher.
      */
-    public function __construct(Builder $builder, EventDispatcher $dispatcher)
+    public function __construct(Encoder $encoder, EventDispatcher $dispatcher)
     {
-        $this->builder    = $builder;
+        $this->encoder    = $encoder;
         $this->dispatcher = $dispatcher;
     }
 
     /**
-     * Get the builder.
+     * Get the encoder.
      *
-     * @return Builder
+     * @return Encoder
      */
-    public function getBuilder()
+    public function getEncoder()
     {
-        return $this->builder;
+        return $this->encoder;
     }
 
     /**
@@ -80,10 +80,10 @@ class Compiler
     {
         $output = $output ?: new Output();
 
-        $subscriber = new CompileSubscriber($this->builder, $output);
+        $subscriber = new CompileSubscriber($this->encoder, $output);
         $this->dispatcher->addSubscriber($subscriber);
 
-        $event = new CompileEvent($object, $this->builder, $output);
+        $event = new CompileEvent($object, $this->encoder, $output);
         $this->dispatcher->dispatch($event::NAME, $event);
 
         $this->dispatcher->removeSubscriber($subscriber);

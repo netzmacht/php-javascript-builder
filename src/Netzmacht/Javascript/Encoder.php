@@ -11,18 +11,18 @@
 
 namespace Netzmacht\Javascript;
 
-use Netzmacht\Javascript\Event\BuildValueEvent;
+use Netzmacht\Javascript\Event\EncodeValueEvent;
 use Netzmacht\Javascript\Event\GetReferenceEvent;
-use Netzmacht\Javascript\Exception\BuildValueFailed;
+use Netzmacht\Javascript\Exception\EncodeValueFailed;
 use Netzmacht\Javascript\Exception\GetReferenceFailed;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
- * Class Builder provides methods to build javascript for several input types.
+ * Class Encoder provides methods to encode javascript for several input types.
  *
  * @package Netzmacht\Javascript
  */
-class Builder
+class Encoder
 {
     const VALUE_DEFINE              = 0;
     const VALUE_REFERENCE_PREFERRED = 1;
@@ -46,55 +46,55 @@ class Builder
     }
 
     /**
-     * Build javascript value for a given input.
+     * Encode javascript value for a given input.
      *
      * @param mixed $value      The given value.
      * @param int   $referenced Value reference state.
      *
      * @return string
      *
-     * @throws BuildValueFailed If no value could be built.
+     * @throws EncodeValueFailed If no value could be built.
      */
-    public function buildValue($value, $referenced = self::VALUE_DEFINE)
+    public function encodeValue($value, $referenced = self::VALUE_DEFINE)
     {
-        $event = new BuildValueEvent($this, $value, $referenced);
+        $event = new EncodeValueEvent($this, $value, $referenced);
         $this->dispatcher->dispatch($event::NAME, $event);
 
         if ($event->isSuccessful()) {
             return $event->getResult();
         }
 
-        throw new BuildValueFailed($value, $referenced);
+        throw new EncodeValueFailed($value, $referenced);
     }
 
     /**
-     * Build a list of arguments.
+     * Encode a list of arguments.
      *
      * @param array $arguments List of arguments.
      *
      * @return string
      */
-    public function buildArguments(array $arguments)
+    public function encodeArguments(array $arguments)
     {
-        $build = array();
+        $encoded = array();
 
         foreach ($arguments as $argument) {
-            $build[] = $this->buildValue($argument, static::VALUE_REFERENCE_REQUIRED);
+            $encoded[] = $this->encodeValue($argument, static::VALUE_REFERENCE_REQUIRED);
         }
 
-        return implode(', ', $build);
+        return implode(', ', $encoded);
     }
 
     /**
-     * Build reference of given variable/object.
+     * Encode reference of given variable/object.
      *
-     * @param object $object Build reference for an object.
+     * @param object $object Encode reference for an object.
      *
      * @return string
      *
      * @throws GetReferenceFailed If no reference was created.
      */
-    public function buildReference($object)
+    public function encodeReference($object)
     {
         $event = new GetReferenceEvent($object);
         $this->dispatcher->dispatch($event::NAME, $event);

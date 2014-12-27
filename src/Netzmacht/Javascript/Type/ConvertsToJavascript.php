@@ -11,7 +11,7 @@
 
 namespace Netzmacht\Javascript\Type;
 
-use Netzmacht\Javascript\Builder;
+use Netzmacht\Javascript\Encoder;
 
 /**
  * Interface ConvertsToJavascript describes an object that can be converted to a javascript representation.
@@ -21,12 +21,12 @@ use Netzmacht\Javascript\Builder;
 interface ConvertsToJavascript
 {
     /**
-     * Build the javscript representation of the object.
+     * Encode the javascript representation of the object.
      *
-     * @param Builder $builder The javascript builder.
+     * @param Encoder $encoder The javascript encoder.
      * @param bool    $finish  If true the statement should be finished with an semicolon.
      *
      * @return string
      */
-    public function build(Builder $builder, $finish = true);
+    public function encode(Encoder $encoder, $finish = true);
 }

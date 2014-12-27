@@ -11,7 +11,7 @@
 
 namespace Netzmacht\Javascript\Type\Call;
 
-use Netzmacht\Javascript\Builder;
+use Netzmacht\Javascript\Encoder;
 
 /**
  * Class MethodCall represents a javascript method call.
@@ -51,12 +51,11 @@ class MethodCall extends FunctionCall
         return $this->object;
     }
 
-
     /**
      * {@inheritdoc}
      */
-    public function build(Builder $builder, $finish = true)
+    public function encode(Encoder $encoder, $finish = true)
     {
-        return sprintf('%s.%s', $builder->buildReference($this->object), parent::build($builder, $finish));
+        return sprintf('%s.%s', $encoder->encodeReference($this->object), parent::encode($encoder, $finish));
     }
 }

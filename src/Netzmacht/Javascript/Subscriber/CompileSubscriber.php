@@ -11,28 +11,28 @@
 
 namespace Netzmacht\Javascript\Subscriber;
 
-use Netzmacht\Javascript\Builder;
-use Netzmacht\Javascript\Event\BuildValueEvent;
+use Netzmacht\Javascript\Encoder;
+use Netzmacht\Javascript\Event\EncodeValueEvent;
 use Netzmacht\Javascript\Event\CompileEvent;
 use Netzmacht\Javascript\Event\GetReferenceEvent;
-use Netzmacht\Javascript\Exception\BuildValueFailed;
+use Netzmacht\Javascript\Exception\EncodeValueFailed;
 use Netzmacht\Javascript\Output;
-use Netzmacht\LeafletPHP\JavaScript\Closure;
+use Netzmacht\Javascript\Type\Call\AnonymousFunction;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Class CompileSubscriber subscribes event which occurs during the compile process.
  *
- * @package Netzmacht\Javascript\Builder
+ * @package Netzmacht\Javascript\Subscriber
  */
 class CompileSubscriber implements EventSubscriberInterface
 {
     /**
-     * The builder.
+     * The encoder.
      *
-     * @var Builder
+     * @var Encoder
      */
-    private $builder;
+    private $encoder;
 
     /**
      * The output.
@@ -51,12 +51,12 @@ class CompileSubscriber implements EventSubscriberInterface
     /**
      * Construct.
      *
-     * @param Builder $builder The builder.
+     * @param Encoder $encoder The encoder.
      * @param Output  $output  The output.
      */
-    public function __construct(Builder $builder, Output $output)
+    public function __construct(Encoder $encoder, Output $output)
     {
-        $this->builder = $builder;
+        $this->encoder = $encoder;
         $this->output  = $output;
     }
 
@@ -66,7 +66,7 @@ class CompileSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            BuildValueEvent::NAME   => array('handleClosures', -100),
+            EncodeValueEvent::NAME   => array('handleClosures', -100),
             GetReferenceEvent::NAME => array('handleGetReference'),
             CompileEvent::NAME      => array('handleCompile', 100),
         );
@@ -75,18 +75,18 @@ class CompileSubscriber implements EventSubscriberInterface
     /**
      * Instantiate referenced objects.
      *
-     * @param BuildValueEvent $event The Subscribed event.
+     * @param EncodeValueEvent $event The Subscribed event.
      *
      * @return void
      *
-     * @throws BuildValueFailed If value could not being build.
+     * @throws EncodeValueFailed If value could not being encoded.
      */
-    public function handleClosures(BuildValueEvent $event)
+    public function handleClosures(EncodeValueEvent $event)
     {
         $object = $event->getValue();
 
-        if ($object instanceof Closure) {
-            $this->compile($object, $this->builder, $this->output);
+        if ($object instanceof AnonymousFunction) {
+            $this->compile($object, $this->encoder, $this->output);
         }
     }
 
@@ -97,7 +97,7 @@ class CompileSubscriber implements EventSubscriberInterface
      *
      * @return void
      *
-     * @throws BuildValueFailed If value could not being build.
+     * @throws EncodeValueFailed If value could not being encoded.
      */
     public function handleCompile(CompileEvent $event)
     {
@@ -105,7 +105,7 @@ class CompileSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $this->compile($event->getObject(), $event->getBuilder(), $event->getOutput());
+        $this->compile($event->getObject(), $event->getEncoder(), $event->getOutput());
     }
 
     /**
@@ -118,27 +118,27 @@ class CompileSubscriber implements EventSubscriberInterface
     public function handleGetReference(GetReferenceEvent $event)
     {
         $object = $event->getObject();
-        $this->compile($object, $this->builder, $this->output);
+        $this->compile($object, $this->encoder, $this->output);
     }
 
     /**
      * Compile an object.
      *
      * @param mixed   $object  The object being compiled.
-     * @param Builder $builder The builder.
-     * @param Output  $output  The putput.
+     * @param Encoder $encoder The encoder.
+     * @param Output  $output  The output.
      *
      * @return void
      *
-     * @throws BuildValueFailed If building a value failed.
+     * @throws EncodeValueFailed If encoding a value failed.
      */
-    public function compile($object, Builder $builder, Output $output)
+    public function compile($object, Encoder $encoder, Output $output)
     {
         $hash = spl_object_hash($object);
 
         if (!isset($this->stack[$hash])) {
             $this->stack[$hash] = $object;
-            $compiled           = $builder->buildValue($object);
+            $compiled           = $encoder->encodeValue($object);
 
             $output->addLines($compiled);
         }

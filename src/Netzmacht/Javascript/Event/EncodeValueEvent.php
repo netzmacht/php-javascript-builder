@@ -11,18 +11,18 @@
 
 namespace Netzmacht\Javascript\Event;
 
-use Netzmacht\Javascript\Builder;
+use Netzmacht\Javascript\Encoder;
 use Netzmacht\Javascript\Subscriber;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class BuildValueEvent is emitted when a value is being built.
+ * Class EncodeValueEvent is emitted when a value is being encoded.
  *
  * @package Netzmacht\Javascript\Event
  */
-class BuildValueEvent extends Event
+class EncodeValueEvent extends Event
 {
-    const NAME = 'javascript-builder.build-value';
+    const NAME = 'javascript-builder.encode-value';
 
     /**
      * The value.
@@ -53,11 +53,11 @@ class BuildValueEvent extends Event
     private $successful = false;
 
     /**
-     * The builder.
+     * The encoder.
      *
-     * @var Builder
+     * @var Encoder
      */
-    private $builder;
+    private $encoder;
 
     /**
      * Json_encode flags.
@@ -69,27 +69,27 @@ class BuildValueEvent extends Event
     /**
      * Construct.
      *
-     * @param Builder $builder    The builder.
+     * @param Encoder $encoder    The encoder.
      * @param mixed   $value      The value.
      * @param int     $referenced The reference flag.
      * @param int     $flags      The json_encode flags.
      */
-    public function __construct(Builder $builder, $value, $referenced = Builder::VALUE_DEFINE, $flags = null)
+    public function __construct(Encoder $encoder, $value, $referenced = Encoder::VALUE_DEFINE, $flags = null)
     {
         $this->value      = $value;
         $this->referenced = $referenced;
-        $this->builder    = $builder;
+        $this->encoder    = $encoder;
         $this->flags      = $flags;
     }
 
     /**
-     * Get the builder.
+     * Get the encoder.
      *
-     * @return Builder
+     * @return Encoder
      */
-    public function getBuilder()
+    public function getEncoder()
     {
-        return $this->builder;
+        return $this->encoder;
     }
 
     /**
@@ -125,7 +125,7 @@ class BuildValueEvent extends Event
     /**
      * Set the result.
      *
-     * @param mixed $result The build javscript result.
+     * @param mixed $result The encoded javascript result.
      *
      * @return $this
      */
@@ -138,7 +138,7 @@ class BuildValueEvent extends Event
     }
 
     /**
-     * Check if building was successful.
+     * Check if encoding was successful.
      *
      * @return boolean
      */

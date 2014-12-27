@@ -11,8 +11,8 @@
 
 namespace Netzmacht\Javascript\Subscriber;
 
-use Netzmacht\Javascript\Builder;
-use Netzmacht\Javascript\Event\BuildValueEvent;
+use Netzmacht\Javascript\Encoder;
+use Netzmacht\Javascript\Event\EncodeValueEvent;
 use Netzmacht\Javascript\Event\GetReferenceEvent;
 use Netzmacht\Javascript\Type\Call\AbstractCall;
 use Netzmacht\Javascript\Type\ConvertsToJavascript;
@@ -21,11 +21,11 @@ use Netzmacht\Javascript\Type\Value\ConvertsToJson;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class BuilderSubscriber subscribes the builder events.
+ * Class EncoderSubscriber subscribes the encoder events.
  *
  * @package Netzmacht\Javascript\Subscriber
  */
-class BuilderSubscriber implements EventSubscriberInterface
+class EncoderSubscriber implements EventSubscriberInterface
 {
     /**
      * List of native values.
@@ -40,49 +40,49 @@ class BuilderSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            BuildValueEvent::NAME   => array('handleBuildValue', 100),
+            EncodeValueEvent::NAME  => array('handleEncodeValue', 100),
             GetReferenceEvent::NAME => array('handleGetReference', 100)
         );
     }
 
     /**
-     * Handle the build value event.
+     * Handle the encode value event.
      *
-     * @param BuildValueEvent $event The build value event.
+     * @param EncodeValueEvent $event The encode value event.
      *
      * @return void
      */
-    public function handleBuildValue(BuildValueEvent $event)
+    public function handleEncodeValue(EncodeValueEvent $event)
     {
         if ($event->isSuccessful()) {
             return;
         }
 
-        $builder = $event->getBuilder();
+        $encoder = $event->getEncoder();
         $value   = $event->getValue();
 
         if ($value instanceof ConvertsToJavascript) {
-            $event->setResult($value->build($builder));
+            $event->setResult($value->encode($encoder));
         }
 
-        if ($event->getReferenced() === $builder::VALUE_REFERENCE_REQUIRED) {
+        if ($event->getReferenced() === $encoder::VALUE_REFERENCE_REQUIRED) {
             if ($this->canBeReferenced($value)) {
-                $event->setResult($builder->buildReference($value));
+                $event->setResult($encoder->encodeReference($value));
 
                 return;
             } elseif ($value instanceof AbstractCall) {
-                $event->setResult($value->build($builder, false));
+                $event->setResult($value->encode($encoder, false));
 
                 return;
             }
         }
 
         if (in_array(gettype($value), static::$native)) {
-            $event->setResult($this->buildNative($value));
+            $event->setResult($this->encodeNative($value));
         } elseif ($value instanceof ConvertsToJson) {
             $event->setResult($value->toJson());
         } elseif ($this->isArray($value)) {
-            $event->setResult($this->buildArray($value, $builder, $event->getJsonFlags()));
+            $event->setResult($this->encodeArray($value, $encoder, $event->getJsonFlags()));
         }
     }
 
@@ -107,31 +107,31 @@ class BuilderSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Build a native value.
+     * Encode a native value.
      *
      * @param mixed $value The native value.
      * @param int   $flags Json flags.
      *
      * @return string
      */
-    public function buildNative($value, $flags = null)
+    public function encodeNative($value, $flags = null)
     {
         return json_encode($value, $flags);
     }
 
     /**
-     * Build an array.
+     * Encode an array.
      *
      * @param array   $data    The data being built.
-     * @param Builder $builder The builder.
+     * @param Encoder $encoder The encoder.
      *
      * @return string
      */
-    public function buildArray($data, Builder $builder)
+    public function encodeArray($data, Encoder $encoder)
     {
         $data = array_map(
-            function ($item) use ($builder) {
-                return $builder->buildValue($item, $builder::VALUE_REFERENCE_REQUIRED);
+            function ($item) use ($encoder) {
+                return $encoder->encodeValue($item, $encoder::VALUE_REFERENCE_REQUIRED);
             },
             $data
         );

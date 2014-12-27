@@ -11,7 +11,7 @@
 
 namespace Netzmacht\Javascript\Type\Call;
 
-use Netzmacht\Javascript\Builder;
+use Netzmacht\Javascript\Encoder;
 
 /**
  * Class FunctionCall is used for named function calls. They have to be defined somewhere else.
@@ -54,12 +54,12 @@ class FunctionCall extends AbstractCall
     /**
      * {@inheritdoc}
      */
-    public function build(Builder $builder, $finish = true)
+    public function encode(Encoder $encoder, $finish = true)
     {
         return sprintf(
             '%s(%s)%s',
             $this->getName(),
-            $builder->buildArguments($this->getArguments()),
+            $encoder->encodeArguments($this->getArguments()),
             $finish ? ';' : ''
         );
     }

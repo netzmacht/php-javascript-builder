@@ -12,14 +12,14 @@
 namespace Netzmacht\Javascript\Exception;
 
 use Exception;
-use Netzmacht\Javascript\Builder;
+use Netzmacht\Javascript\Encoder;
 
 /**
- * Class BuildValueFailed is thrown if no javascript value could be created.
+ * Class EncodeValueFailed is thrown if no javascript value could be created.
  *
  * @package Netzmacht\Javascript\Exception
  */
-class BuildValueFailed extends \Exception
+class EncodeValueFailed extends \Exception
 {
     /**
      * The value.
@@ -43,9 +43,13 @@ class BuildValueFailed extends \Exception
      * @param int       $code      The error code.
      * @param Exception $previous  The previous exception.
      */
-    public function __construct($value, $reference = Builder::VALUE_DEFINE, $code = 0, Exception $previous = null)
+    public function __construct($value, $reference = Encoder::VALUE_DEFINE, $code = 0, Exception $previous = null)
     {
-        parent::__construct('Build of value failed', $code, $previous);
+        parent::__construct(
+            sprintf('Encoding of value "%s" failed', var_export($value, true)),
+            $code,
+            $previous
+        );
 
         $this->reference = $reference;
         $this->value     = $value;
