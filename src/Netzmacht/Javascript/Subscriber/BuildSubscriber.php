@@ -66,9 +66,9 @@ class BuildSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            EncodeValueEvent::NAME   => array('handleClosures', -100),
+            EncodeValueEvent::NAME  => array('handleClosures'),
             GetReferenceEvent::NAME => array('handleGetReference'),
-            BuildEvent::NAME      => array('handleBuild', 100),
+            BuildEvent::NAME        => array('handleBuild', 100),
         );
     }
 
@@ -101,10 +101,6 @@ class BuildSubscriber implements EventSubscriberInterface
      */
     public function handleBuild(BuildEvent $event)
     {
-        if ($event->getOutput()->getLines()) {
-            return;
-        }
-
         $this->build($event->getObject(), $event->getEncoder(), $event->getOutput());
     }
 

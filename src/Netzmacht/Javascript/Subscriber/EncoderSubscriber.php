@@ -147,7 +147,7 @@ class EncoderSubscriber implements EventSubscriberInterface
             $buffer .= ': ' . $value;
         }
 
-        return '{ ' . $buffer . ' }';
+        return '{' . $buffer . '}';
     }
 
     /**
