@@ -13,7 +13,7 @@ namespace Netzmacht\Javascript\Subscriber;
 
 use Netzmacht\Javascript\Encoder;
 use Netzmacht\Javascript\Event\EncodeValueEvent;
-use Netzmacht\Javascript\Event\CompileEvent;
+use Netzmacht\Javascript\Event\BuildEvent;
 use Netzmacht\Javascript\Event\GetReferenceEvent;
 use Netzmacht\Javascript\Exception\EncodeValueFailed;
 use Netzmacht\Javascript\Output;
@@ -21,11 +21,11 @@ use Netzmacht\Javascript\Type\Call\AnonymousFunction;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Class CompileSubscriber subscribes event which occurs during the compile process.
+ * Class BuildSubscriber subscribes event which occurs during the build process.
  *
  * @package Netzmacht\Javascript\Subscriber
  */
-class CompileSubscriber implements EventSubscriberInterface
+class BuildSubscriber implements EventSubscriberInterface
 {
     /**
      * The encoder.
@@ -68,7 +68,7 @@ class CompileSubscriber implements EventSubscriberInterface
         return array(
             EncodeValueEvent::NAME   => array('handleClosures', -100),
             GetReferenceEvent::NAME => array('handleGetReference'),
-            CompileEvent::NAME      => array('handleCompile', 100),
+            BuildEvent::NAME      => array('handleBuild', 100),
         );
     }
 
@@ -86,26 +86,26 @@ class CompileSubscriber implements EventSubscriberInterface
         $object = $event->getValue();
 
         if ($object instanceof AnonymousFunction) {
-            $this->compile($object, $this->encoder, $this->output);
+            $this->build($object, $this->encoder, $this->output);
         }
     }
 
     /**
-     * Handle compile event.
+     * Handle build event.
      *
-     * @param CompileEvent $event The subscribed event.
+     * @param BuildEvent $event The subscribed event.
      *
      * @return void
      *
      * @throws EncodeValueFailed If value could not being encoded.
      */
-    public function handleCompile(CompileEvent $event)
+    public function handleBuild(BuildEvent $event)
     {
         if ($event->getOutput()->getLines()) {
             return;
         }
 
-        $this->compile($event->getObject(), $event->getEncoder(), $event->getOutput());
+        $this->build($event->getObject(), $event->getEncoder(), $event->getOutput());
     }
 
     /**
@@ -118,13 +118,13 @@ class CompileSubscriber implements EventSubscriberInterface
     public function handleGetReference(GetReferenceEvent $event)
     {
         $object = $event->getObject();
-        $this->compile($object, $this->encoder, $this->output);
+        $this->build($object, $this->encoder, $this->output);
     }
 
     /**
-     * Compile an object.
+     * Build an object.
      *
-     * @param mixed   $object  The object being compiled.
+     * @param mixed   $object  The object being built.
      * @param Encoder $encoder The encoder.
      * @param Output  $output  The output.
      *
@@ -132,15 +132,14 @@ class CompileSubscriber implements EventSubscriberInterface
      *
      * @throws EncodeValueFailed If encoding a value failed.
      */
-    public function compile($object, Encoder $encoder, Output $output)
+    public function build($object, Encoder $encoder, Output $output)
     {
         $hash = spl_object_hash($object);
 
         if (!isset($this->stack[$hash])) {
             $this->stack[$hash] = $object;
-            $compiled           = $encoder->encodeValue($object);
 
-            $output->addLines($compiled);
+            $output->addLines($encoder->encodeValue($object));
         }
     }
 }

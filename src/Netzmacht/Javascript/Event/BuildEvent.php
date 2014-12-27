@@ -17,13 +17,13 @@ use Netzmacht\Javascript\Output;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class CompileEvent is emitted when an object is being encoded.
+ * Class BuildEvent is emitted when an object is being encoded.
  *
  * @package Netzmacht\Javascript\Event
  */
-class CompileEvent extends Event
+class BuildEvent extends Event
 {
-    const NAME = 'javascript-builder.compile';
+    const NAME = 'javascript-builder.build';
 
     /**
      * The object being encoded.
@@ -40,7 +40,7 @@ class CompileEvent extends Event
     private $encoder;
 
     /**
-     * The compile output.
+     * The build output.
      *
      * @var Output
      */
@@ -68,7 +68,7 @@ class CompileEvent extends Event
     }
 
     /**
-     * Get the object which is compiled.
+     * Get the object which is built.
      *
      * @return object
      */

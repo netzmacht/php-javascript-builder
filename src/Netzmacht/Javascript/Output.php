@@ -28,7 +28,7 @@ class Output
     /**
      * Add a line.
      *
-     * @param string $line Compiled line.
+     * @param string $line The built line.
      *
      * @return $this
      */

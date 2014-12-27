@@ -11,16 +11,16 @@
 
 namespace Netzmacht\Javascript;
 
-use Netzmacht\Javascript\Event\CompileEvent;
-use Netzmacht\Javascript\Subscriber\CompileSubscriber;
+use Netzmacht\Javascript\Event\BuildEvent;
+use Netzmacht\Javascript\Subscriber\BuildSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatcher;
 
 /**
- * Class Compiler is an event driven compiler.
+ * Class Builder is an event driven javascript builder.
  *
  * @package Netzmacht\Javascript
  */
-class Compiler
+class Builder
 {
     /**
      * The javascript encoder.
@@ -69,21 +69,21 @@ class Compiler
     }
 
     /**
-     * Compile an object.
+     * Build an object.
      *
-     * @param object $object The object being compiled.
+     * @param object $object The object being built.
      * @param Output $output Optional pass an output instance.
      *
      * @return string
      */
-    public function compile($object, Output $output = null)
+    public function build($object, Output $output = null)
     {
         $output = $output ?: new Output();
 
-        $subscriber = new CompileSubscriber($this->encoder, $output);
+        $subscriber = new BuildSubscriber($this->encoder, $output);
         $this->dispatcher->addSubscriber($subscriber);
 
-        $event = new CompileEvent($object, $this->encoder, $output);
+        $event = new BuildEvent($object, $this->encoder, $output);
         $this->dispatcher->dispatch($event::NAME, $event);
 
         $this->dispatcher->removeSubscriber($subscriber);
