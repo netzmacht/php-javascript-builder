@@ -14,9 +14,11 @@ useful if you have some dynamically defined javascript libraries.
 Install
 -------
 
+This library can be installed using composer:
+
 ```php
 
-$ php composer.phar require netzmacht/php-javscript-builder:~1.0
+$ php composer.phar require netzmacht/php-javascript-builder:~1.0
 ```
 
 Requirements
