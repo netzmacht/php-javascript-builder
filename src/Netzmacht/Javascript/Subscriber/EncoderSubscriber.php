@@ -129,13 +129,6 @@ class EncoderSubscriber implements EventSubscriberInterface
      */
     public function encodeArray($data, Encoder $encoder)
     {
-        $data = array_map(
-            function ($item) use ($encoder) {
-                return $encoder->encodeValue($item, $encoder::VALUE_REFERENCE_REQUIRED);
-            },
-            $data
-        );
-
         $buffer = '';
 
         foreach ($data as $key => $value) {
@@ -144,7 +137,7 @@ class EncoderSubscriber implements EventSubscriberInterface
             }
 
             $buffer .= ctype_alnum($key) ? $key : ('"' . $key . '"');
-            $buffer .= ': ' . $value;
+            $buffer .= ': ' . $encoder->encodeValue($value, Encoder::VALUE_REFERENCE_REQUIRED);
         }
 
         return '{' . $buffer . '}';
