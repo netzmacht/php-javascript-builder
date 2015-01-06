@@ -17,6 +17,8 @@ use Netzmacht\Javascript\Event\GetReferenceEvent;
 use Netzmacht\Javascript\Type\Call\AbstractCall;
 use Netzmacht\Javascript\Type\ConvertsToJavascript;
 use Netzmacht\Javascript\Type\Value\ConvertsToArray;
+use Netzmacht\Javascript\Type\Value\ConvertsToJson;
+use Netzmacht\LeafletPHP\Definition\UI\Marker;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -39,8 +41,8 @@ class EncoderSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            EncodeValueEvent::NAME  => array('handleEncodeValue', 100),
-            GetReferenceEvent::NAME => array('handleGetReference', 100)
+            EncodeValueEvent::NAME  => array('handleEncodeValue', -100),
+            GetReferenceEvent::NAME => array('handleGetReference', -100)
         );
     }
 
@@ -77,9 +79,9 @@ class EncoderSubscriber implements EventSubscriberInterface
         }
 
         if (in_array(gettype($value), static::$native)) {
-            $event->addLine($this->encodeNative($value));
+            $event->addLine($this->encodeNative($value, $event->getJsonFlags()));
         } elseif ($value instanceof \JsonSerializable) {
-            $event->addLine(json_encode($value));
+            $event->addLine($this->encodeNative($value, $event->getJsonFlags()));
         } elseif ($this->isArray($value)) {
             $event->addLine($this->encodeArray($value, $encoder, $event->getJsonFlags()));
         }
@@ -128,8 +130,8 @@ class EncoderSubscriber implements EventSubscriberInterface
      */
     public function encodeArray($data, Encoder $encoder)
     {
-        $buffer = '';
-        $assoc  = false;
+        $buffer   = '';
+        $numeric  = !empty($data);
 
         foreach ($data as $key => $value) {
             if (strlen($buffer)) {
@@ -142,14 +144,14 @@ class EncoderSubscriber implements EventSubscriberInterface
                 $buffer .= ctype_alnum($key) ? $key : ('"' . $key . '"');
                 $buffer .= ': ' . $encoder->encodeValue($value, Encoder::VALUE_REFERENCE_REQUIRED);
 
-                $assoc = true;
+                $numeric = false;
             }
         }
 
-        if ($assoc) {
-            return '{' . $buffer . '}';
-        } else {
+        if ($numeric) {
             return '[' . $buffer . ']';
+        } else {
+            return '{' . $buffer . '}';
         }
     }
 
@@ -180,7 +182,7 @@ class EncoderSubscriber implements EventSubscriberInterface
     {
         return is_object($value)
             && (!$value instanceof ConvertsToArray)
-            && (!$value instanceof \JsonSerializable)
+            && (!$value instanceof ConvertsToJson)
             && (!$value instanceof AbstractCall);
     }
 }
