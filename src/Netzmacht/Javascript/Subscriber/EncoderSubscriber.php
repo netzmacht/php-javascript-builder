@@ -18,6 +18,7 @@ use Netzmacht\Javascript\Type\Call\AbstractCall;
 use Netzmacht\Javascript\Type\ConvertsToJavascript;
 use Netzmacht\Javascript\Type\Value\ConvertsToArray;
 use Netzmacht\Javascript\Type\Value\ConvertsToJson;
+use Netzmacht\Javascript\Type\Value\Reference;
 use Netzmacht\LeafletPHP\Definition\UI\Marker;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -183,6 +184,7 @@ class EncoderSubscriber implements EventSubscriberInterface
         return is_object($value)
             && (!$value instanceof ConvertsToArray)
             && (!$value instanceof ConvertsToJson)
-            && (!$value instanceof AbstractCall);
+            && (!$value instanceof AbstractCall)
+            && (!$value instanceof Reference);
     }
 }
