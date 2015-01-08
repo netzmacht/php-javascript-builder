@@ -15,22 +15,15 @@ namespace Netzmacht\Javascript\Type\Value;
 use Netzmacht\Javascript\Encoder;
 use Netzmacht\Javascript\Type\ConvertsToJavascript;
 
-class Reference implements ConvertsToJavascript
+class Expression implements ConvertsToJavascript
 {
     private $name;
-
-    /**
-     * @var null
-     */
-    private $bind;
-
     /**
      * @param $name
      */
-    public function __construct($name, $bind = null)
+    public function __construct($name)
     {
         $this->name = $name;
-        $this->bind = $bind;
     }
 
     /**
@@ -43,6 +36,6 @@ class Reference implements ConvertsToJavascript
      */
     public function encode(Encoder $encoder, $finish = true)
     {
-        return $this->name . ($this->bind ? '.bind(' . $this->bind . ')' : '');
+        return $this->name;
     }
 }

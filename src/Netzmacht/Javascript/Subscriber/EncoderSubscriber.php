@@ -18,7 +18,7 @@ use Netzmacht\Javascript\Type\Call\AbstractCall;
 use Netzmacht\Javascript\Type\ConvertsToJavascript;
 use Netzmacht\Javascript\Type\Value\ConvertsToArray;
 use Netzmacht\Javascript\Type\Value\ConvertsToJson;
-use Netzmacht\Javascript\Type\Value\Reference;
+use Netzmacht\Javascript\Type\Value\Expression;
 use Netzmacht\LeafletPHP\Definition\UI\Marker;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -185,6 +185,6 @@ class EncoderSubscriber implements EventSubscriberInterface
             && (!$value instanceof ConvertsToArray)
             && (!$value instanceof ConvertsToJson)
             && (!$value instanceof AbstractCall)
-            && (!$value instanceof Reference);
+            && (!$value instanceof Expression);
     }
 }
