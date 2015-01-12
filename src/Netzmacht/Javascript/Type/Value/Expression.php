@@ -11,31 +11,38 @@
 
 namespace Netzmacht\Javascript\Type\Value;
 
-
 use Netzmacht\Javascript\Encoder;
 use Netzmacht\Javascript\Type\ConvertsToJavascript;
 
+/**
+ * Class Expression defines a Javascript statement.
+ *
+ * @package Netzmacht\Javascript\Type\Value
+ */
 class Expression implements ConvertsToJavascript
 {
-    private $name;
     /**
-     * @param $name
+     * The javascript expression.
+     *
+     * @var string
      */
-    public function __construct($name)
+    private $expression;
+
+    /**
+     * Construct.
+     *
+     * @param string $expression The javascript expression.
+     */
+    public function __construct($expression)
     {
-        $this->name = $name;
+        $this->expression = $expression;
     }
 
     /**
-     * Encode the javascript representation of the object.
-     *
-     * @param Encoder $encoder The javascript encoder.
-     * @param bool    $finish  If true the statement should be finished with an semicolon.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function encode(Encoder $encoder, $finish = true)
     {
-        return $this->name;
+        return $this->expression;
     }
 }

@@ -46,7 +46,7 @@ class Encoder
      * Construct.
      *
      * @param EventDispatcherInterface $dispatcher The event dispatcher.
-     * @param int|null                 $flags      Json encoding flag.s
+     * @param int|null                 $flags      Json encoding flag.
      */
     public function __construct(EventDispatcherInterface $dispatcher, $flags = null)
     {

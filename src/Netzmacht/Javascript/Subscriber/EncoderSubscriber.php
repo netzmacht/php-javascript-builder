@@ -131,8 +131,8 @@ class EncoderSubscriber implements EventSubscriberInterface
      */
     public function encodeArray($data, Encoder $encoder)
     {
-        $buffer   = '';
-        $numeric  = !empty($data);
+        $buffer  = '';
+        $numeric = !empty($data);
 
         foreach ($data as $key => $value) {
             if (strlen($buffer)) {
