@@ -245,7 +245,7 @@ class Encoder
     /**
      * Encode a native value.
      *
-     * @param $value
+     * @param mixed $value The scalar value.
      *
      * @return string
      */

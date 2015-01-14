@@ -32,13 +32,6 @@ class EncodeValueEvent extends Event
     private $value;
 
     /**
-     * Flag of how the value should be created.
-     *
-     * @var int
-     */
-    private $flag;
-
-    /**
      * The created result.
      *
      * @var array
@@ -101,16 +94,6 @@ class EncodeValueEvent extends Event
     }
 
     /**
-     * Get the encoder flag.
-     *
-     * @return int
-     */
-    public function getFlag()
-    {
-        return $this->flag;
-    }
-
-    /**
      * Get the result.
      *
      * @return array
@@ -134,23 +117,6 @@ class EncodeValueEvent extends Event
 
         if ($successful) {
             $this->successful = true;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Add multiple lines.
-     *
-     * @param array $lines      The encoded javascript result as lines.
-     * @param bool  $successful Mark result as successful.
-     *
-     * @return $this
-     */
-    public function addLines(array $lines, $successful = true)
-    {
-        foreach ($lines as $line) {
-            $this->addLine($line, $successful);
         }
 
         return $this;
