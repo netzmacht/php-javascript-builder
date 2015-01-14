@@ -58,23 +58,23 @@ class Encoder
     /**
      * Encode javascript value for a given input.
      *
-     * @param mixed $value      The given value.
-     * @param int   $referenced Value reference state.
+     * @param mixed $value The given value.
+     * @param int   $flag  Determine how the value should be encoded.
      *
      * @return string
      *
      * @throws EncodeValueFailed If no value could be built.
      */
-    public function encodeValue($value, $referenced = self::BUILD)
+    public function encodeValue($value, $flag = self::BUILD)
     {
-        $event = new EncodeValueEvent($this, $value, $referenced, $this->jsonEncodeFlags);
+        $event = new EncodeValueEvent($this, $value, $flag, $this->jsonEncodeFlags);
         $this->dispatcher->dispatch($event::NAME, $event);
 
         if ($event->isSuccessful()) {
             return implode("\n", $event->getLines());
         }
 
-        throw new EncodeValueFailed($value, $referenced);
+        throw new EncodeValueFailed($value, $flag);
     }
 
     /**

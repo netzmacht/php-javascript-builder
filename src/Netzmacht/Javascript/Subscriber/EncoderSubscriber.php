@@ -67,7 +67,7 @@ class EncoderSubscriber implements EventSubscriberInterface
             $event->addLine($value->encode($encoder));
         }
 
-        if ($event->getReferenced() === $encoder::REFERENCE_REQUIRED) {
+        if ($event->getFlag() === $encoder::REFERENCE_REQUIRED) {
             if ($this->canBeReferenced($value)) {
                 $event->addLine($encoder->encodeReference($value));
 

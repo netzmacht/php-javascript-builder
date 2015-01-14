@@ -32,11 +32,11 @@ class EncodeValueEvent extends Event
     private $value;
 
     /**
-     * Should an reference being created.
+     * Flag of how the value should be created.
      *
      * @var int
      */
-    private $referenced;
+    private $flag;
 
     /**
      * The created result.
@@ -69,17 +69,17 @@ class EncodeValueEvent extends Event
     /**
      * Construct.
      *
-     * @param Encoder $encoder    The encoder.
-     * @param mixed   $value      The value.
-     * @param int     $referenced The reference flag.
-     * @param int     $flags      The json_encode flags.
+     * @param Encoder $encoder        The encoder.
+     * @param mixed   $value          The value.
+     * @param int     $flag           The reference flag.
+     * @param int     $jsonEncodeFlag The json_encode flags.
      */
-    public function __construct(Encoder $encoder, $value, $referenced = Encoder::BUILD, $flags = null)
+    public function __construct(Encoder $encoder, $value, $flag = Encoder::BUILD, $jsonEncodeFlag = null)
     {
         $this->value      = $value;
-        $this->referenced = $referenced;
+        $this->flag       = $flag;
         $this->encoder    = $encoder;
-        $this->flags      = $flags;
+        $this->flags      = $jsonEncodeFlag;
     }
 
     /**
@@ -103,13 +103,13 @@ class EncodeValueEvent extends Event
     }
 
     /**
-     * Get the referenced flag.
+     * Get the encoder flag.
      *
      * @return int
      */
-    public function getReferenced()
+    public function getFlag()
     {
-        return $this->referenced;
+        return $this->flag;
     }
 
     /**
