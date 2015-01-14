@@ -9,9 +9,10 @@
  *
  */
 
-namespace Netzmacht\Javascript\Type;
+namespace Netzmacht\Javascript\Type\Value;
 
 use Netzmacht\Javascript\Encoder;
+use Netzmacht\Javascript\Output;
 
 /**
  * Interface ConvertsToJavascript describes an object that can be converted to a javascript representation.
@@ -24,9 +25,10 @@ interface ConvertsToJavascript
      * Encode the javascript representation of the object.
      *
      * @param Encoder $encoder The javascript encoder.
-     * @param bool    $finish  If true the statement should be finished with an semicolon.
+     * @param Output  $output  The generated output.
+     * @param bool    $finish  Should be statement being finished.
      *
      * @return string
      */
-    public function encode(Encoder $encoder, $finish = true);
+    public function encode(Encoder $encoder, Output $output, $finish = true);
 }

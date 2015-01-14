@@ -71,15 +71,13 @@ class EncodeValueEvent extends Event
      *
      * @param Encoder $encoder        The encoder.
      * @param mixed   $value          The value.
-     * @param int     $flag           The reference flag.
      * @param int     $jsonEncodeFlag The json_encode flags.
      */
-    public function __construct(Encoder $encoder, $value, $flag = Encoder::BUILD, $jsonEncodeFlag = null)
+    public function __construct(Encoder $encoder, $value, $jsonEncodeFlag = null)
     {
-        $this->value      = $value;
-        $this->flag       = $flag;
-        $this->encoder    = $encoder;
-        $this->flags      = $jsonEncodeFlag;
+        $this->value   = $value;
+        $this->encoder = $encoder;
+        $this->flags   = $jsonEncodeFlag;
     }
 
     /**
@@ -117,9 +115,9 @@ class EncodeValueEvent extends Event
      *
      * @return array
      */
-    public function getLines()
+    public function getResult()
     {
-        return $this->lines;
+        return implode("\n", $this->lines);
     }
 
     /**
@@ -166,6 +164,18 @@ class EncodeValueEvent extends Event
     public function isSuccessful()
     {
         return $this->successful;
+    }
+
+    /**
+     * Mark encoded value as successful no matter if any content was set.
+     *
+     * @return $this
+     */
+    public function setSuccessful()
+    {
+        $this->successful = true;
+
+        return $this;
     }
 
     /**

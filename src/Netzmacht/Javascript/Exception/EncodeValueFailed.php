@@ -29,21 +29,13 @@ class EncodeValueFailed extends \Exception
     private $value;
 
     /**
-     * The reference flag.
-     *
-     * @var bool
-     */
-    private $reference;
-
-    /**
      * Construct.
      *
-     * @param mixed     $value     The value.
-     * @param int       $reference The referenced flag.
-     * @param int       $code      The error code.
-     * @param Exception $previous  The previous exception.
+     * @param mixed     $value    The value.
+     * @param int       $code     The error code.
+     * @param Exception $previous The previous exception.
      */
-    public function __construct($value, $reference = Encoder::BUILD, $code = 0, Exception $previous = null)
+    public function __construct($value, $code = 0, Exception $previous = null)
     {
         parent::__construct(
             sprintf('Encoding of value "%s" failed', var_export($value, true)),
@@ -51,8 +43,7 @@ class EncodeValueFailed extends \Exception
             $previous
         );
 
-        $this->reference = $reference;
-        $this->value     = $value;
+        $this->value = $value;
     }
 
     /**
@@ -63,15 +54,5 @@ class EncodeValueFailed extends \Exception
     public function getValue()
     {
         return $this->value;
-    }
-
-    /**
-     * Get the reference flag.
-     *
-     * @return int
-     */
-    public function getReference()
-    {
-        return $this->reference;
     }
 }

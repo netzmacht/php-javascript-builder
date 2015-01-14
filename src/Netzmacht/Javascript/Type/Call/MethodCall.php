@@ -12,6 +12,7 @@
 namespace Netzmacht\Javascript\Type\Call;
 
 use Netzmacht\Javascript\Encoder;
+use Netzmacht\Javascript\Output;
 
 /**
  * Class MethodCall represents a javascript method call.
@@ -54,7 +55,7 @@ class MethodCall extends FunctionCall
     /**
      * {@inheritdoc}
      */
-    public function encode(Encoder $encoder, $finish = true)
+    public function encode(Encoder $encoder, Output $output, $finish = true)
     {
         return sprintf('%s.%s', $encoder->encodeReference($this->object), parent::encode($encoder, $finish));
     }

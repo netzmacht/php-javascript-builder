@@ -12,6 +12,7 @@
 namespace Netzmacht\Javascript\Type\Call;
 
 use Netzmacht\Javascript\Encoder;
+use Netzmacht\Javascript\Output;
 
 /**
  * Class AnonymousCall is used for anonymous function calls.
@@ -74,7 +75,7 @@ class AnonymousFunction extends AbstractCall
     /**
      * {@inheritdoc}
      */
-    public function encode(Encoder $encoder, $finish = true)
+    public function encode(Encoder $encoder, Output $output, $finish = true)
     {
         return sprintf(
             'function(%s) { %s } %s',

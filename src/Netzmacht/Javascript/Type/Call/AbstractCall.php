@@ -11,7 +11,7 @@
 
 namespace Netzmacht\Javascript\Type\Call;
 
-use Netzmacht\Javascript\Type\ConvertsToJavascript;
+use Netzmacht\Javascript\Type\Value\ConvertsToJavascript;
 
 /**
  * Class AbstractCall is the base class for call representations.

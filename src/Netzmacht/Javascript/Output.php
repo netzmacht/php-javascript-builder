@@ -21,9 +21,16 @@ class Output
     /**
      * Generated lines.
      *
-     * @var string[]
+     * @var string
      */
-    private $lines = array();
+    private $buffer = '';
+
+    /**
+     * Separator.
+     *
+     * @var string
+     */
+    private $separator = "\n";
 
     /**
      * Add a line.
@@ -32,29 +39,9 @@ class Output
      *
      * @return $this
      */
-    public function addLine($line)
+    public function append($line)
     {
-        $this->lines[] = $line;
-
-        return $this;
-    }
-
-    /**
-     * Add lines.
-     *
-     * @param array|string $lines Lines.
-     *
-     * @return $this
-     */
-    public function addLines($lines)
-    {
-        if (is_string($lines)) {
-            $lines = explode("\n", $lines);
-        }
-
-        foreach ($lines as $line) {
-            $this->addLine($line);
-        }
+        $this->buffer .= $this->separator . $line;
 
         return $this;
     }
@@ -62,11 +49,11 @@ class Output
     /**
      * Get lines.
      *
-     * @return \string[]
+     * @return string
      */
-    public function getLines()
+    public function getBuffer()
     {
-        return $this->lines;
+        return $this->buffer;
     }
 
     /**
@@ -76,6 +63,6 @@ class Output
      */
     public function __toString()
     {
-        return implode("\n", $this->getLines());
+        return $this->buffer;
     }
 }
