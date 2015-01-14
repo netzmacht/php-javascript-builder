@@ -24,9 +24,10 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class Encoder
 {
-    const BUILD              = 0;
-    const REFERENCE_PREFERRED = 1;
-    const REFERENCE_REQUIRED  = 2;
+    const DEFINE              = 0;
+    const BUILD               = 1;
+    const REFERENCE_PREFERRED = 2;
+    const REFERENCE_REQUIRED  = 4;
 
     /**
      * The event dispatcher.
