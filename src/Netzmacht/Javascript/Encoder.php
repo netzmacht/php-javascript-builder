@@ -41,18 +41,18 @@ class Encoder
      *
      * @var int
      */
-    private $flags;
+    private $jsonEncodeFlags;
 
     /**
      * Construct.
      *
-     * @param EventDispatcherInterface $dispatcher The event dispatcher.
-     * @param int|null                 $flags      Json encoding flag.
+     * @param EventDispatcherInterface $dispatcher      The event dispatcher.
+     * @param int|null                 $jsonEncodeFlags Json encoding flag.
      */
-    public function __construct(EventDispatcherInterface $dispatcher, $flags = null)
+    public function __construct(EventDispatcherInterface $dispatcher, $jsonEncodeFlags = null)
     {
-        $this->dispatcher = $dispatcher;
-        $this->flags      = $flags;
+        $this->dispatcher      = $dispatcher;
+        $this->jsonEncodeFlags = $jsonEncodeFlags;
     }
 
     /**
@@ -67,7 +67,7 @@ class Encoder
      */
     public function encodeValue($value, $referenced = self::BUILD)
     {
-        $event = new EncodeValueEvent($this, $value, $referenced, $this->flags);
+        $event = new EncodeValueEvent($this, $value, $referenced, $this->jsonEncodeFlags);
         $this->dispatcher->dispatch($event::NAME, $event);
 
         if ($event->isSuccessful()) {
