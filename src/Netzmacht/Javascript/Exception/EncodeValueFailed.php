@@ -43,7 +43,7 @@ class EncodeValueFailed extends \Exception
      * @param int       $code      The error code.
      * @param Exception $previous  The previous exception.
      */
-    public function __construct($value, $reference = Encoder::VALUE_DEFINE, $code = 0, Exception $previous = null)
+    public function __construct($value, $reference = Encoder::BUILD, $code = 0, Exception $previous = null)
     {
         parent::__construct(
             sprintf('Encoding of value "%s" failed', var_export($value, true)),

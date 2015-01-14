@@ -74,7 +74,7 @@ class EncodeValueEvent extends Event
      * @param int     $referenced The reference flag.
      * @param int     $flags      The json_encode flags.
      */
-    public function __construct(Encoder $encoder, $value, $referenced = Encoder::VALUE_DEFINE, $flags = null)
+    public function __construct(Encoder $encoder, $value, $referenced = Encoder::BUILD, $flags = null)
     {
         $this->value      = $value;
         $this->referenced = $referenced;

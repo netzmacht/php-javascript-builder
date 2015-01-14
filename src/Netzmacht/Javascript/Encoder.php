@@ -24,9 +24,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class Encoder
 {
-    const VALUE_DEFINE              = 0;
-    const VALUE_REFERENCE_PREFERRED = 1;
-    const VALUE_REFERENCE_REQUIRED  = 2;
+    const BUILD              = 0;
+    const REFERENCE_PREFERRED = 1;
+    const REFERENCE_REQUIRED  = 2;
 
     /**
      * The event dispatcher.
@@ -64,7 +64,7 @@ class Encoder
      *
      * @throws EncodeValueFailed If no value could be built.
      */
-    public function encodeValue($value, $referenced = self::VALUE_DEFINE)
+    public function encodeValue($value, $referenced = self::BUILD)
     {
         $event = new EncodeValueEvent($this, $value, $referenced, $this->flags);
         $this->dispatcher->dispatch($event::NAME, $event);
@@ -88,7 +88,7 @@ class Encoder
         $encoded = array();
 
         foreach ($arguments as $argument) {
-            $encoded[] = $this->encodeValue($argument, static::VALUE_REFERENCE_REQUIRED);
+            $encoded[] = $this->encodeValue($argument, static::REFERENCE_REQUIRED);
         }
 
         return implode(', ', $encoded);

@@ -67,7 +67,7 @@ class EncoderSubscriber implements EventSubscriberInterface
             $event->addLine($value->encode($encoder));
         }
 
-        if ($event->getReferenced() === $encoder::VALUE_REFERENCE_REQUIRED) {
+        if ($event->getReferenced() === $encoder::REFERENCE_REQUIRED) {
             if ($this->canBeReferenced($value)) {
                 $event->addLine($encoder->encodeReference($value));
 
@@ -140,10 +140,10 @@ class EncoderSubscriber implements EventSubscriberInterface
             }
 
             if (is_numeric($key)) {
-                $buffer .= $encoder->encodeValue($value, Encoder::VALUE_REFERENCE_REQUIRED);
+                $buffer .= $encoder->encodeValue($value, Encoder::REFERENCE_REQUIRED);
             } else {
                 $buffer .= ctype_alnum($key) ? $key : ('"' . $key . '"');
-                $buffer .= ': ' . $encoder->encodeValue($value, Encoder::VALUE_REFERENCE_REQUIRED);
+                $buffer .= ': ' . $encoder->encodeValue($value, Encoder::REFERENCE_REQUIRED);
 
                 $numeric = false;
             }
