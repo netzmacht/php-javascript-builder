@@ -186,25 +186,12 @@ class Encoder
      * @param null  $flag Allow to modify json flags for the array here. Only support JSON_FORCE_OBJECT atm.
      *
      * @return string
-     * @throws EncodeValueFailed
+     * @throws EncodeValueFailed If value could not be encoded.
      */
     public function encodeArray(array $data, $flag = null)
     {
         $buffer  = '';
-        $numeric = !(($this->jsonEncodeFlags & JSON_FORCE_OBJECT) == JSON_FORCE_OBJECT);
-
-        if (($flag & JSON_FORCE_OBJECT) == JSON_FORCE_OBJECT) {
-            $numeric = false;
-        }
-
-        if ($numeric) {
-            foreach (array_keys($data) as $key) {
-                if (!is_numeric($key)) {
-                    $numeric = false;
-                    break;
-                }
-            }
-        }
+        $numeric = $this->isNumericArray($data, $flag);
 
         foreach ($data as $key => $value) {
             if (strlen($buffer)) {
@@ -292,5 +279,35 @@ class Encoder
         }
 
         return md5(json_encode($value));
+    }
+
+    /**
+     * Check if given array is an numeric one.
+     *
+     * @param array    $data The array being encoded.
+     * @param int|null $flag Optional json encode flags.
+     *
+     * @return bool
+     */
+    private function isNumericArray(array $data, $flag)
+    {
+        $numeric = !(($this->jsonEncodeFlags & JSON_FORCE_OBJECT) == JSON_FORCE_OBJECT);
+
+        if (($flag & JSON_FORCE_OBJECT) == JSON_FORCE_OBJECT) {
+            $numeric = false;
+        }
+
+        if ($numeric) {
+            foreach (array_keys($data) as $key) {
+                if (!is_numeric($key)) {
+                    $numeric = false;
+                    break;
+                }
+            }
+
+            return $numeric;
+        }
+
+        return $numeric;
     }
 }
