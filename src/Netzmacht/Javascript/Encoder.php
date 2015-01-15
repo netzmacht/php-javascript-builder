@@ -183,14 +183,19 @@ class Encoder
      * Encode the values of an array.
      *
      * @param array $data The array being encoded.
+     * @param null  $flag Allow to modify json flags for the array here. Only support JSON_FORCE_OBJECT atm.
      *
      * @return string
-     * @throws EncodeValueFailed If a value could not be encoded.
+     * @throws EncodeValueFailed
      */
-    public function encodeArray(array $data)
+    public function encodeArray(array $data, $flag = null)
     {
         $buffer  = '';
         $numeric = !(($this->jsonEncodeFlags & JSON_FORCE_OBJECT) == JSON_FORCE_OBJECT);
+
+        if (($flag & JSON_FORCE_OBJECT) == JSON_FORCE_OBJECT) {
+            $numeric = false;
+        }
 
         if ($numeric) {
             foreach (array_keys($data) as $key) {
