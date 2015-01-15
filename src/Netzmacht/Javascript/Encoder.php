@@ -190,7 +190,16 @@ class Encoder
     public function encodeArray(array $data)
     {
         $buffer  = '';
-        $numeric = (($this->jsonEncodeFlags & JSON_FORCE_OBJECT) == JSON_FORCE_OBJECT);
+        $numeric = !(($this->jsonEncodeFlags & JSON_FORCE_OBJECT) == JSON_FORCE_OBJECT);
+
+        if ($numeric) {
+            foreach (array_keys($data) as $key) {
+                if (!is_numeric($key)) {
+                    $numeric = false;
+                    break;
+                }
+            }
+        }
 
         foreach ($data as $key => $value) {
             if (strlen($buffer)) {
@@ -204,8 +213,6 @@ class Encoder
             } else {
                 $buffer .= ctype_alnum($key) ? $key : ('"' . $key . '"');
                 $buffer .= ': ' . $value;
-
-                $numeric = false;
             }
         }
 
