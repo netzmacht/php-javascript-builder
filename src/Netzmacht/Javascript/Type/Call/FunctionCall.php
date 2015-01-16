@@ -13,13 +13,14 @@ namespace Netzmacht\Javascript\Type\Call;
 
 use Netzmacht\Javascript\Encoder;
 use Netzmacht\Javascript\Output;
+use Netzmacht\Javascript\Type\Arguments;
 
 /**
  * Class FunctionCall is used for named function calls. They have to be defined somewhere else.
  *
  * @package Netzmacht\Javascript\Type\Call
  */
-class FunctionCall extends AbstractCall
+class FunctionCall extends Arguments
 {
     /**
      * Function name.
@@ -55,13 +56,13 @@ class FunctionCall extends AbstractCall
     /**
      * {@inheritdoc}
      */
-    public function encode(Encoder $encoder, Output $output, $finish = true)
+    public function encode(Encoder $encoder, $flags = null)
     {
         return sprintf(
             '%s(%s)%s',
             $this->getName(),
             $encoder->encodeArguments($this->getArguments()),
-            $finish ? ';' : ''
+            $encoder->close($flags)
         );
     }
 }

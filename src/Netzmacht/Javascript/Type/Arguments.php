@@ -9,16 +9,17 @@
  *
  */
 
-namespace Netzmacht\Javascript\Type\Call;
+namespace Netzmacht\Javascript\Type;
 
-use Netzmacht\Javascript\Type\Value\ConvertsToJavascript;
+use Netzmacht\Javascript\Encoder;
+use Netzmacht\Javascript\Type\ConvertsToJavascript;
 
 /**
  * Class AbstractCall is the base class for call representations.
  *
  * @package Netzmacht\Javascript\Type\Call
  */
-abstract class AbstractCall implements ConvertsToJavascript
+class Arguments implements ConvertsToJavascript
 {
     /**
      * Method arguments.
@@ -45,5 +46,13 @@ abstract class AbstractCall implements ConvertsToJavascript
     public function getArguments()
     {
         return $this->arguments;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function encode(Encoder $encoder, $flags = null)
+    {
+        return $encoder->encodeArguments($this->getArguments(), $flags);
     }
 }

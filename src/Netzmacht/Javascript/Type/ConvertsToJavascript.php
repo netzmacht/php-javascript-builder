@@ -9,7 +9,7 @@
  *
  */
 
-namespace Netzmacht\Javascript\Type\Value;
+namespace Netzmacht\Javascript\Type;
 
 use Netzmacht\Javascript\Encoder;
 use Netzmacht\Javascript\Output;
@@ -24,11 +24,10 @@ interface ConvertsToJavascript
     /**
      * Encode the javascript representation of the object.
      *
-     * @param Encoder $encoder The javascript encoder.
-     * @param Output  $output  The generated output.
-     * @param bool    $finish  Should be statement being finished.
+     * @param Encoder  $encoder The javascript encoder.
+     * @param int|null $flags   The encoding flags.
      *
      * @return string
      */
-    public function encode(Encoder $encoder, Output $output, $finish = true);
+    public function encode(Encoder $encoder, $flags = null);
 }

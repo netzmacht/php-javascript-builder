@@ -9,11 +9,9 @@
  *
  */
 
-namespace Netzmacht\Javascript\Type\Value;
+namespace Netzmacht\Javascript\Type;
 
 use Netzmacht\Javascript\Encoder;
-use Netzmacht\Javascript\Output;
-use Netzmacht\Javascript\Type\Value\ConvertsToJavascript;
 
 /**
  * Class Expression defines a Javascript statement.
@@ -42,8 +40,8 @@ class Expression implements ConvertsToJavascript
     /**
      * {@inheritdoc}
      */
-    public function encode(Encoder $encoder, Output $output, $finish = true)
+    public function encode(Encoder $encoder, $flags = null)
     {
-        return $this->expression;
+        return $this->expression . $encoder->close($flags);
     }
 }

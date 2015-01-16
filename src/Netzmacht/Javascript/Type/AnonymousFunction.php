@@ -9,17 +9,16 @@
  *
  */
 
-namespace Netzmacht\Javascript\Type\Call;
+namespace Netzmacht\Javascript\Type;
 
 use Netzmacht\Javascript\Encoder;
-use Netzmacht\Javascript\Output;
 
 /**
  * Class AnonymousCall is used for anonymous function calls.
  *
  * @package Netzmacht\Javascript\Type\Call
  */
-class AnonymousFunction extends AbstractCall
+class AnonymousFunction extends Arguments
 {
     /**
      * Function lines.
@@ -75,13 +74,13 @@ class AnonymousFunction extends AbstractCall
     /**
      * {@inheritdoc}
      */
-    public function encode(Encoder $encoder, Output $output, $finish = true)
+    public function encode(Encoder $encoder, $flags = Encoder::CLOSE_STATEMENT)
     {
         return sprintf(
             'function(%s) { %s } %s',
-            $encoder->encodeArguments($this->getArguments()),
+            parent::encode($encoder, $flags),
             implode("\n", $this->getLines()),
-            $finish ? ';' : ''
+            $encoder->close($flags)
         );
     }
 }

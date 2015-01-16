@@ -55,8 +55,12 @@ class MethodCall extends FunctionCall
     /**
      * {@inheritdoc}
      */
-    public function encode(Encoder $encoder, Output $output, $finish = true)
+    public function encode(Encoder $encoder, $flags = null)
     {
-        return sprintf('%s.%s', $encoder->encodeReference($this->object), parent::encode($encoder, $output, $finish));
+        return sprintf(
+            '%s.%s',
+            $encoder->encodeReference($this->object),
+            parent::encode($encoder, $flags)
+        );
     }
 }
