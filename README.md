@@ -34,44 +34,82 @@ See the example below:
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-use Netzmacht\Javascript\Encoder;
-use Netzmacht\Javascript\Builder;
-use Netzmacht\Javascript\Subscriber\EncoderSubscriber;
-use Netzmacht\Javascript\Type\ConvertsToJavascript;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-
-$dispatcher = new EventDispatcher();
-$dispatcher->addSubscriber(new EncoderSubscriber());
-
-$builder  = new Encoder($dispatcher);
-$compiler = new Builder($builder, $dispatcher);
-
-class Name implements ConvertsToJavascript
+class Foo implements ConvertsToJavascript
 {
-    public $firstName;
+    private $bar;
 
-    public $lastName;
-    
-    public function encode(Encoder $builder, $finish = true)
+    public function __construct($bar)
     {
-        return $builder->encodeValue(array('firstName' => $this->firstName, 'lastName' => $this->lastName));
+        $this->bar = $bar;
+    }
+
+    public function encode(Encoder $encoder, $flags = null)
+    {
+        return 'console.log(' . $encoder->encodeReference($this->bar) . ')' . $encoder->close($flags);
     }
 }
 
-$test = new Name();
-$test->firstName = 'Max';
-$test->lastName  = 'Mustermann';
+class Bar implements ConvertsToJavascript, ReferencedByIdentifier
+{
+    public function encode(Encoder $encoder, $flags = null)
+    {
+        return sprintf (
+            '%s = new Bar()%s',
+            $encoder->encodeReference($this),
+            $encoder->close($flags)
+        );
+    }
 
-// outputs {firstName: "Max", lastName: "Mustermann"}
-echo $compiler->build($test);
+    public function getReferenceIdentifier()
+    {
+        return 'bar';
+    }
+}
+
+$builder = new Builder();
+
+$bar = new Bar();
+$foo = new Foo($bar);
+
+echo '<pre>';
+echo $builder->encode($foo);
+// bar = new Bar();
+// console.log(bar);
 ```
 
-Instead you integrating the encoding into the object you can also implement an event subscriber.
+Custom encoders
+---------------
 
+You can also tweak the encoding process by add another encoder to the encoding chain. This library provides an 
+implementation of an event dispatching encoder using the symfony/event-dispatcher. Be aware that the event dispatcher
+is not installed by default. If you want to use it, install it:
 
-Requirements
-------------
+```php
 
-This library uses an event driven architecture by using the 
-[symfony event dispatcher](https://github.com/symfony/EventDispatcher).
-If you want to compile/build your javascript you have to create some event subscribers/listeners.
+$ php composer.phar require symfony/event-dispatcher:~2.3
+```
+
+The builder accepts an encoder factory callable. So you can easily assign other encoders. Be aware that the
+ResultCacheEncoder is required so that referenced items get rendered before they are getting referenced. Otherwise
+you would only see the `bar.foo();` output of the example above.
+
+```php
+
+// Setup the dispatcher outside so that the listeners can be added.
+$dispatcher = new EventDispatcher();
+$factory    = function(Output $output) use ($dispatcher) {
+    return new ResultCacheEncoder(
+        new Netzmacht\Javascript\Symfony\EventDispatchingEncoder(
+            new JavascriptEncoder($output),
+            $dispatcher
+        )
+    );
+};
+
+The event dispatching encoder fires two events:
+ - `javascript-builder.encode-reference` with an event object of `Netzmacht\Javascript\Symfony\Event\EncodeReferenceEvent`
+    is triggered when an reference is requested. It's called before the `ReferencedByIdentifier` is checked.
+    
+ - `javascript-builder.encode-value` with an event object of `Netzmacht\Javascript\Symfony\Event\EncodeReferenceEvent`
+    is triggered when an object value is being created. It's called before the default implementation checks for the
+    `ConvertsToJavascript` interface or even the `JsonSerialize`
