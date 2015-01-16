@@ -106,6 +106,8 @@ $factory    = function(Output $output) use ($dispatcher) {
     );
 };
 
+```
+
 The event dispatching encoder fires two events:
  - `javascript-builder.encode-reference` with an event object of `Netzmacht\JavascriptBuilder\Symfony\Event\EncodeReferenceEvent`
     is triggered when an reference is requested. It's called before the `ReferencedByIdentifier` is checked.
