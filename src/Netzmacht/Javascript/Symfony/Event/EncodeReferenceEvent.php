@@ -9,7 +9,7 @@
  *
  */
 
-namespace Netzmacht\Javascript\Event;
+namespace Netzmacht\Javascript\Symfony\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
@@ -18,7 +18,7 @@ use Symfony\Component\EventDispatcher\Event;
  *
  * @package Netzmacht\Javascript\Event
  */
-class GetReferenceEvent extends Event
+class EncodeReferenceEvent extends Event
 {
     const NAME = 'javascript-builder.get-reference';
 

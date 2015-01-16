@@ -9,7 +9,7 @@
  *
  */
 
-namespace Netzmacht\Javascript\Event;
+namespace Netzmacht\Javascript\Symfony\Event;
 
 use Netzmacht\Javascript\Encoder;
 use Netzmacht\Javascript\Subscriber;
