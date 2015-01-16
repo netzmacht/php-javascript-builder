@@ -12,6 +12,7 @@
 namespace Netzmacht\Javascript\Encoder;
 
 use Netzmacht\Javascript\Encoder;
+use Netzmacht\Javascript\Util\Flags;
 
 /**
  * Class ResultCacheEncoder provides a cache layer for the encoded result.
@@ -51,12 +52,46 @@ class ResultCacheEncoder extends DelegateEncoder
     /**
      * {@inheritdoc}
      */
+    public function encodeObject($value, $flags = null)
+    {
+        $hash = $this->hash($value);
+
+        if (!array_key_exists($hash, $this->values)) {
+            $this->values[$hash] = parent::encodeObject($value, $flags);
+        }
+
+        return $this->values[$hash];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function encodeScalar($value, $flags = null)
+    {
+        $hash = $this->hash($value);
+
+        if (!array_key_exists($hash, $this->values)) {
+            $this->values[$hash] = parent::encodeScalar($value, $flags);
+        }
+
+        return $this->values[$hash];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function encodeReference($value)
     {
         $hash = $this->hash($value);
 
         if (!array_key_exists($hash, $this->references)) {
             $this->references[$hash] = parent::encodeReference($value);
+
+            if ($this->references[$hash]) {
+                $this->getOutput()->append(
+                    $this->encodeValue($value, Flags::add(static::CLOSE_STATEMENT, $this->getFlags()))
+                );
+            }
         }
 
         return $this->references[$hash];

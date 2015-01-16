@@ -43,6 +43,8 @@ class DelegateEncoder implements ChainNode
      */
     function __construct(ChainNode $encoder)
     {
+        $encoder->setEncoder($this);
+
         $this->encoder = $encoder;
         $this->root    = $this;
     }
@@ -60,9 +62,31 @@ class DelegateEncoder implements ChainNode
      */
     public function setEncoder(Encoder $encoder)
     {
+        if ($this->encoder != $this) {
+            $this->encoder->setEncoder($encoder);
+        }
+
         $this->root = $encoder;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setFlags($flags)
+    {
+        $this->encoder->setFlags($flags);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFlags()
+    {
+        return $this->encoder->getFlags();
     }
 
     /**

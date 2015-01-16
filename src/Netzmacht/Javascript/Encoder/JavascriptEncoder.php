@@ -85,6 +85,24 @@ class JavascriptEncoder implements ChainNode
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function setFlags($flags)
+    {
+        $this->flags = $flags;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFlags()
+    {
+        return $this->flags;
+    }
+
+    /**
      * Get the output.
      *
      * @return Output

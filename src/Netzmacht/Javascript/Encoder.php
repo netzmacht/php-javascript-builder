@@ -38,6 +38,22 @@ interface Encoder
     public function getOutput();
 
     /**
+     * Set the encoder flags.
+     *
+     * @param int $flags The encoder flags.
+     *
+     * @return $this
+     */
+    public function setFlags($flags);
+
+    /**
+     * Get the encoder flags.
+     *
+     * @return int
+     */
+    public function getFlags();
+
+    /**
      * Encode a value and return it's javascript representation.
      *
      * @param mixed $value The generated javascript.
