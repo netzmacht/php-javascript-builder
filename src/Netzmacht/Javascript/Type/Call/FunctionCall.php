@@ -61,7 +61,7 @@ class FunctionCall extends Arguments
         return sprintf(
             '%s(%s)%s',
             $this->getName(),
-            $encoder->encodeArguments($this->getArguments()),
+            $encoder->encodeArguments($this->getArguments(), $flags),
             $encoder->close($flags)
         );
     }

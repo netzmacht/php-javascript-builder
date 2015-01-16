@@ -12,6 +12,8 @@
 namespace Netzmacht\Javascript;
 
 use Netzmacht\Javascript\Encoder\JavascriptEncoder;
+use Netzmacht\Javascript\Encoder\ResultCacheEncoder;
+use Netzmacht\Javascript\Util\Flags;
 
 /**
  * Class Builder is the main entry point to
@@ -38,8 +40,16 @@ class Builder
             $this->setEncoderFactory($encoderFactory);
 
         } else {
+            /**
+             * @param Output $output
+             *
+             * @return ResultCacheEncoder
+             */
             $this->encoderFactory = function(Output $output) {
-                return new JavascriptEncoder($output);
+                $encoder = new JavascriptEncoder($output);
+                $cache   = new ResultCacheEncoder($encoder);
+
+                return $cache;
             };
         }
     }
@@ -68,18 +78,20 @@ class Builder
      * Encode an value and return it.
      *
      * @param mixed    $value  The value being encoded.
-     * @param Output   $output The output being generated.
      * @param int|null $flags  Optional encoder flags.
+     * @param Output   $output The output being generated.
      *
      * @return string
      */
-    public function encode($value, Output $output = null, $flags = null)
+    public function encode($value, $flags = Encoder::CLOSE_STATEMENT, Output $output = null)
     {
         $factory = $this->encoderFactory;
         $output  = $output ?: new Output();
 
         /** @var Encoder $encoder */
         $encoder = $factory($output);
+        $flags   = Flags::add($flags, $encoder->getFlags());
+
         $output->append($encoder->encodeValue($value, $flags));
 
         return $output->getBuffer();
