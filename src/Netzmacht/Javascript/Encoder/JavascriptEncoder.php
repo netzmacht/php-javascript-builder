@@ -230,7 +230,7 @@ class JavascriptEncoder implements ChainNode
     }
 
     /**
-     * Get used falgs.
+     * Get used flags.
      *
      * @param int|null $flags Used encoding flags.
      *
