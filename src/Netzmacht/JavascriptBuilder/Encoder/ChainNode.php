@@ -9,16 +9,16 @@
  *
  */
 
-namespace Netzmacht\Javascript\Encoder;
+namespace Netzmacht\JavascriptBuilder\Encoder;
 
-use Netzmacht\Javascript\Encoder;
+use Netzmacht\JavascriptBuilder\Encoder;
 
 /**
  * Interface ChainNode describes encoders which can be in a chain.
  *
  * It is used so that the javascript encoder is able to delegate the sub calls to the visible encoder.
  *
- * @package Netzmacht\Javascript\Encoder
+ * @package Netzmacht\JavascriptBuilder\Encoder
  */
 interface ChainNode extends Encoder
 {

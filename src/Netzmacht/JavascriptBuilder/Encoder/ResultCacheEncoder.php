@@ -9,15 +9,15 @@
  *
  */
 
-namespace Netzmacht\Javascript\Encoder;
+namespace Netzmacht\JavascriptBuilder\Encoder;
 
-use Netzmacht\Javascript\Encoder;
-use Netzmacht\Javascript\Util\Flags;
+use Netzmacht\JavascriptBuilder\Encoder;
+use Netzmacht\JavascriptBuilder\Util\Flags;
 
 /**
  * Class ResultCacheEncoder provides a cache layer for the encoded result.
  *
- * @package Netzmacht\Javascript\Encoder
+ * @package Netzmacht\JavascriptBuilder\Encoder
  */
 class ResultCacheEncoder extends DelegateEncoder
 {

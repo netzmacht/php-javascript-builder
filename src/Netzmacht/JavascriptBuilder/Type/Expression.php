@@ -9,14 +9,14 @@
  *
  */
 
-namespace Netzmacht\Javascript\Type;
+namespace Netzmacht\JavascriptBuilder\Type;
 
-use Netzmacht\Javascript\Encoder;
+use Netzmacht\JavascriptBuilder\Encoder;
 
 /**
  * Class Expression defines a Javascript statement.
  *
- * @package Netzmacht\Javascript\Type\Value
+ * @package Netzmacht\JavascriptBuilder\Type\Value
  */
 class Expression implements ConvertsToJavascript
 {

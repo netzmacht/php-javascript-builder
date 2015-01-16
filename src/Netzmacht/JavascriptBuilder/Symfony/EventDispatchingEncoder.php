@@ -9,12 +9,12 @@
  *
  */
 
-namespace Netzmacht\Javascript\Symfony;
+namespace Netzmacht\JavascriptBuilder\Symfony;
 
-use Netzmacht\Javascript\Encoder\ChainNode;
-use Netzmacht\Javascript\Encoder\DelegateEncoder;
-use Netzmacht\Javascript\Symfony\Event\EncodeValueEvent;
-use Netzmacht\Javascript\Symfony\Event\EncodeReferenceEvent;
+use Netzmacht\JavascriptBuilder\Encoder\ChainNode;
+use Netzmacht\JavascriptBuilder\Encoder\DelegateEncoder;
+use Netzmacht\JavascriptBuilder\Symfony\Event\EncodeValueEvent;
+use Netzmacht\JavascriptBuilder\Symfony\Event\EncodeReferenceEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatcher;
 
 class EventDispatchingEncoder extends DelegateEncoder

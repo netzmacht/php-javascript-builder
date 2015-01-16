@@ -99,7 +99,7 @@ you would only see the `bar.foo();` output of the example above.
 $dispatcher = new EventDispatcher();
 $factory    = function(Output $output) use ($dispatcher) {
     return new ResultCacheEncoder(
-        new Netzmacht\Javascript\Symfony\EventDispatchingEncoder(
+        new Netzmacht\JavascriptBuilder\Symfony\EventDispatchingEncoder(
             new JavascriptEncoder($output),
             $dispatcher
         )
@@ -107,9 +107,9 @@ $factory    = function(Output $output) use ($dispatcher) {
 };
 
 The event dispatching encoder fires two events:
- - `javascript-builder.encode-reference` with an event object of `Netzmacht\Javascript\Symfony\Event\EncodeReferenceEvent`
+ - `javascript-builder.encode-reference` with an event object of `Netzmacht\JavascriptBuilder\Symfony\Event\EncodeReferenceEvent`
     is triggered when an reference is requested. It's called before the `ReferencedByIdentifier` is checked.
     
- - `javascript-builder.encode-value` with an event object of `Netzmacht\Javascript\Symfony\Event\EncodeReferenceEvent`
+ - `javascript-builder.encode-value` with an event object of `Netzmacht\JavascriptBuilder\Symfony\Event\EncodeReferenceEvent`
     is triggered when an object value is being created. It's called before the default implementation checks for the
     `ConvertsToJavascript` interface or even the `JsonSerialize`

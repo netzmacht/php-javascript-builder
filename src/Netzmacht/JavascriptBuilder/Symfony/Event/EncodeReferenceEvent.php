@@ -9,18 +9,18 @@
  *
  */
 
-namespace Netzmacht\Javascript\Symfony\Event;
+namespace Netzmacht\JavascriptBuilder\Symfony\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Class GetReferenceEvent is emitted when a string reference of an variable is requested.
  *
- * @package Netzmacht\Javascript\Event
+ * @package Netzmacht\JavascriptBuilder\Event
  */
 class EncodeReferenceEvent extends Event
 {
-    const NAME = 'javascript-builder.get-reference';
+    const NAME = 'javascript-builder.encode-reference';
 
     /**
      * The object.

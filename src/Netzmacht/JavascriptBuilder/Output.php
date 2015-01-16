@@ -9,7 +9,7 @@
  *
  */
 
-namespace Netzmacht\Javascript;
+namespace Netzmacht\JavascriptBuilder;
 
 /**
  * Class Output collects all output during compiling.

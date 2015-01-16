@@ -9,16 +9,15 @@
  *
  */
 
-namespace Netzmacht\Javascript\Type\Call;
+namespace Netzmacht\JavascriptBuilder\Type\Call;
 
-use Netzmacht\Javascript\Encoder;
-use Netzmacht\Javascript\Output;
-use Netzmacht\Javascript\Type\Arguments;
+use Netzmacht\JavascriptBuilder\Encoder;
+use Netzmacht\JavascriptBuilder\Type\Arguments;
 
 /**
  * Class FunctionCall is used for named function calls. They have to be defined somewhere else.
  *
- * @package Netzmacht\Javascript\Type\Call
+ * @package Netzmacht\JavascriptBuilder\Type\Call
  */
 class FunctionCall extends Arguments
 {

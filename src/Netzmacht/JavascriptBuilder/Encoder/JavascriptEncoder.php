@@ -9,14 +9,14 @@
  *
  */
 
-namespace Netzmacht\Javascript\Encoder;
+namespace Netzmacht\JavascriptBuilder\Encoder;
 
-use Netzmacht\Javascript\Encoder;
-use Netzmacht\Javascript\Exception\EncodeValueFailed;
-use Netzmacht\Javascript\Output;
-use Netzmacht\Javascript\Type\ReferencedByIdentifier;
-use Netzmacht\Javascript\Type\ConvertsToJavascript;
-use Netzmacht\Javascript\Util\Flags;
+use Netzmacht\JavascriptBuilder\Encoder;
+use Netzmacht\JavascriptBuilder\Exception\EncodeValueFailed;
+use Netzmacht\JavascriptBuilder\Output;
+use Netzmacht\JavascriptBuilder\Type\ReferencedByIdentifier;
+use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
+use Netzmacht\JavascriptBuilder\Util\Flags;
 
 /**
  * Class Encoder provides methods to encode javascript for several input types.

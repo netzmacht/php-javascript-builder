@@ -9,15 +9,15 @@
  *
  */
 
-namespace Netzmacht\Javascript\Type;
+namespace Netzmacht\JavascriptBuilder\Type;
 
-use Netzmacht\Javascript\Encoder;
-use Netzmacht\Javascript\Output;
+use Netzmacht\JavascriptBuilder\Encoder;
+use Netzmacht\JavascriptBuilder\Output;
 
 /**
  * Interface ConvertsToJavascript describes an object that can be converted to a javascript representation.
  *
- * @package Netzmacht\Javascript\Type
+ * @package Netzmacht\JavascriptBuilder\Type
  */
 interface ConvertsToJavascript
 {

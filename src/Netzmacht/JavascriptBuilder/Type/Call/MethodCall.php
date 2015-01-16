@@ -9,15 +9,14 @@
  *
  */
 
-namespace Netzmacht\Javascript\Type\Call;
+namespace Netzmacht\JavascriptBuilder\Type\Call;
 
-use Netzmacht\Javascript\Encoder;
-use Netzmacht\Javascript\Output;
+use Netzmacht\JavascriptBuilder\Encoder;
 
 /**
  * Class MethodCall represents a javascript method call.
  *
- * @package Netzmacht\Javascript\Type\Call
+ * @package Netzmacht\JavascriptBuilder\Type\Call
  */
 class MethodCall extends FunctionCall
 {

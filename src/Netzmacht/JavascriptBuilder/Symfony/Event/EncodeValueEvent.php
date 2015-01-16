@@ -9,16 +9,15 @@
  *
  */
 
-namespace Netzmacht\Javascript\Symfony\Event;
+namespace Netzmacht\JavascriptBuilder\Symfony\Event;
 
-use Netzmacht\Javascript\Encoder;
-use Netzmacht\Javascript\Subscriber;
+use Netzmacht\JavascriptBuilder\Encoder;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Class EncodeValueEvent is emitted when a value is being encoded.
  *
- * @package Netzmacht\Javascript\Event
+ * @package Netzmacht\JavascriptBuilder\Event
  */
 class EncodeValueEvent extends Event
 {

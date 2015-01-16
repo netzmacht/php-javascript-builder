@@ -9,15 +9,14 @@
  *
  */
 
-namespace Netzmacht\Javascript\Type;
+namespace Netzmacht\JavascriptBuilder\Type;
 
-use Netzmacht\Javascript\Encoder;
-use Netzmacht\Javascript\Type\ConvertsToJavascript;
+use Netzmacht\JavascriptBuilder\Encoder;
 
 /**
  * Class AbstractCall is the base class for call representations.
  *
- * @package Netzmacht\Javascript\Type\Call
+ * @package Netzmacht\JavascriptBuilder\Type\Call
  */
 class Arguments implements ConvertsToJavascript
 {

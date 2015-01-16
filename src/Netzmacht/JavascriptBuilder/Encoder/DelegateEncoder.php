@@ -9,16 +9,16 @@
  *
  */
 
-namespace Netzmacht\Javascript\Encoder;
+namespace Netzmacht\JavascriptBuilder\Encoder;
 
-use Netzmacht\Javascript\Encoder;
+use Netzmacht\JavascriptBuilder\Encoder;
 
 /**
  * Class DelegateEncoder is designed to delegate every method call to an child encoder.
  *
  * This class is made as base class for composite encoders so that they do not have to implement every delegate itself.
  *
- * @package Netzmacht\Javascript\Encoder
+ * @package Netzmacht\JavascriptBuilder\Encoder
  */
 class DelegateEncoder implements ChainNode
 {

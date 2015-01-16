@@ -9,12 +9,12 @@
  *
  */
 
-namespace Netzmacht\Javascript\Util;
+namespace Netzmacht\JavascriptBuilder\Util;
 
 /**
  * Simple flags util helper for handling bitwise operators.
  *
- * @package Netzmacht\Javascript\Util
+ * @package Netzmacht\JavascriptBuilder\Util
  */
 class Flags
 {

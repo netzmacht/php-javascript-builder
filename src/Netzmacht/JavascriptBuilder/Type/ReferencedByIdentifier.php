@@ -9,9 +9,13 @@
  *
  */
 
-namespace Netzmacht\Javascript\Type;
+namespace Netzmacht\JavascriptBuilder\Type;
 
-
+/**
+ * Interface ReferencedByIdentifier describes elements which creates an identifier for being referenced.
+ *
+ * @package Netzmacht\JavascriptBuilder\Type
+ */
 interface ReferencedByIdentifier
 {
     public function getReferenceIdentifier();

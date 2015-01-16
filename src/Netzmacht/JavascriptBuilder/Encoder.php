@@ -9,9 +9,9 @@
  *
  */
 
-namespace Netzmacht\Javascript;
+namespace Netzmacht\JavascriptBuilder;
 
-use Netzmacht\Javascript\Exception\EncodeValueFailed;
+use Netzmacht\JavascriptBuilder\Exception\EncodeValueFailed;
 
 /**
  * Interface Encoder describes provided methods of the javascript encoder.

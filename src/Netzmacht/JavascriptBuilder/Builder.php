@@ -9,11 +9,11 @@
  *
  */
 
-namespace Netzmacht\Javascript;
+namespace Netzmacht\JavascriptBuilder;
 
-use Netzmacht\Javascript\Encoder\JavascriptEncoder;
-use Netzmacht\Javascript\Encoder\ResultCacheEncoder;
-use Netzmacht\Javascript\Util\Flags;
+use Netzmacht\JavascriptBuilder\Encoder\JavascriptEncoder;
+use Netzmacht\JavascriptBuilder\Encoder\ResultCacheEncoder;
+use Netzmacht\JavascriptBuilder\Util\Flags;
 
 /**
  * Class Builder is the main entry point to

@@ -9,14 +9,14 @@
  *
  */
 
-namespace Netzmacht\Javascript\Type;
+namespace Netzmacht\JavascriptBuilder\Type;
 
-use Netzmacht\Javascript\Encoder;
+use Netzmacht\JavascriptBuilder\Encoder;
 
 /**
  * Class AnonymousCall is used for anonymous function calls.
  *
- * @package Netzmacht\Javascript\Type\Call
+ * @package Netzmacht\JavascriptBuilder\Type\Call
  */
 class AnonymousFunction extends Arguments
 {

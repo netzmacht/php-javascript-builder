@@ -9,15 +9,15 @@
  *
  */
 
-namespace Netzmacht\Javascript\Exception;
+namespace Netzmacht\JavascriptBuilder\Exception;
 
 use Exception;
-use Netzmacht\Javascript\Encoder;
+use Netzmacht\JavascriptBuilder\Encoder;
 
 /**
  * Class EncodeValueFailed is thrown if no javascript value could be created.
  *
- * @package Netzmacht\Javascript\Exception
+ * @package Netzmacht\JavascriptBuilder\Exception
  */
 class EncodeValueFailed extends \Exception
 {
