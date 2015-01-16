@@ -204,6 +204,7 @@ class JavascriptEncoder implements ChainNode
 
     /**
      * {@inheritdoc}
+     * @throws EncodeValueFailed If a value could not being encoded.
      */
     public function encodeObject($value, $flags = null)
     {

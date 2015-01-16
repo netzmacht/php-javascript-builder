@@ -56,7 +56,7 @@ interface Encoder
     /**
      * Encode a value and return it's javascript representation.
      *
-     * @param mixed $value The generated javascript.
+     * @param mixed    $value The generated javascript.
      * @param int|null $flags Force custom json encode flags.
      *
      * @return string
@@ -69,7 +69,7 @@ interface Encoder
      *
      * @param array    $arguments The method arguments.
      * @param int|null $flags     Force flags are passed to each encoded argument.
-
+     *
      * @return string
      * @throws EncodeValueFailed If a value could not be encoded.
      */
@@ -78,7 +78,7 @@ interface Encoder
     /**
      * Encode the values of an array.
      *
-     * @param array    $data The array being encoded.
+     * @param array    $data  The array being encoded.
      * @param int|null $flags Allow to modify json flags for the array here. Only support JSON_FORCE_OBJECT atm.
      *
      * @return string
@@ -103,6 +103,7 @@ interface Encoder
      * @param int|null $flags Force custom json encode flags.
      *
      * @return string
+     * @throws EncodeValueFailed If a value could not being encoded.
      */
     public function encodeScalar($value, $flags = null);
 
@@ -112,9 +113,10 @@ interface Encoder
      * Be aware that also the resource type could be passed to this method.
      *
      * @param object|resource $value The scalar value.
-     * @param int|null        $flags Force flags and pass them to the
+     * @param int|null        $flags Force flags and pass them to the object encoder.
      *
      * @return string
+     * @throws EncodeValueFailed If a value could not being encoded.
      */
     public function encodeObject($value, $flags = null);
 

@@ -17,6 +17,11 @@ use Netzmacht\JavascriptBuilder\Symfony\Event\EncodeValueEvent;
 use Netzmacht\JavascriptBuilder\Symfony\Event\EncodeReferenceEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatcher;
 
+/**
+ * Class EventDispatchingEncoder dispatches the object encoding and reference generating to events.
+ *
+ * @package Netzmacht\JavascriptBuilder\Symfony
+ */
 class EventDispatchingEncoder extends DelegateEncoder
 {
     /**
@@ -32,7 +37,7 @@ class EventDispatchingEncoder extends DelegateEncoder
      * @param ChainNode       $encoder         The child encoder.
      * @param EventDispatcher $eventDispatcher The event dispatcher.
      */
-    function __construct(ChainNode $encoder, EventDispatcher $eventDispatcher)
+    public function __construct(ChainNode $encoder, EventDispatcher $eventDispatcher)
     {
         parent::__construct($encoder);
 

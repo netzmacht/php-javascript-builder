@@ -16,7 +16,7 @@ use Netzmacht\JavascriptBuilder\Encoder\ResultCacheEncoder;
 use Netzmacht\JavascriptBuilder\Util\Flags;
 
 /**
- * Class Builder is the main entry point to
+ * Class Builder is the main entry point to encode an object.
  *
  * @package Netzmacht\Javascript
  */
@@ -40,12 +40,7 @@ class Builder
             $this->setEncoderFactory($encoderFactory);
 
         } else {
-            /**
-             * @param Output $output
-             *
-             * @return ResultCacheEncoder
-             */
-            $this->encoderFactory = function(Output $output) {
+            $this->encoderFactory = function (Output $output) {
                 $encoder = new JavascriptEncoder($output);
                 $cache   = new ResultCacheEncoder($encoder);
 

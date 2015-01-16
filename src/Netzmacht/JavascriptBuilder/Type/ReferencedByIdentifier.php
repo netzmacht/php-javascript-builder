@@ -18,5 +18,10 @@ namespace Netzmacht\JavascriptBuilder\Type;
  */
 interface ReferencedByIdentifier
 {
+    /**
+     * Get the refence identifier as string.
+     *
+     * @return string
+     */
     public function getReferenceIdentifier();
 }

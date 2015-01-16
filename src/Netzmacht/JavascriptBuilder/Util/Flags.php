@@ -41,7 +41,7 @@ class Flags
      */
     public static function add($flag, $flags)
     {
-        return $flags | $flag;
+        return ($flags | $flag);
     }
 
     /**

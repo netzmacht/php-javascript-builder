@@ -41,7 +41,7 @@ class DelegateEncoder implements ChainNode
      *
      * @param ChainNode $encoder The encoder to which every call is delegated.
      */
-    function __construct(ChainNode $encoder)
+    public function __construct(ChainNode $encoder)
     {
         $encoder->setEncoder($this);
 
