@@ -57,21 +57,8 @@ class ResultCacheEncoder extends DelegateEncoder
         $hash = $this->hash($value);
 
         if (!array_key_exists($hash, $this->values)) {
+            $this->values[$hash] = null;
             $this->values[$hash] = parent::encodeObject($value, $flags);
-        }
-
-        return $this->values[$hash];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function encodeScalar($value, $flags = null)
-    {
-        $hash = $this->hash($value);
-
-        if (!array_key_exists($hash, $this->values)) {
-            $this->values[$hash] = parent::encodeScalar($value, $flags);
         }
 
         return $this->values[$hash];
