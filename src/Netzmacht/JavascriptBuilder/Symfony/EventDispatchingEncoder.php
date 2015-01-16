@@ -74,6 +74,7 @@ class EventDispatchingEncoder extends DelegateEncoder
     public function encodeReference($value)
     {
         $event = new EncodeReferenceEvent($value);
+        $this->eventDispatcher->dispatch($event::NAME);
 
         if ($event->getReference()) {
             return $event->getReference();
