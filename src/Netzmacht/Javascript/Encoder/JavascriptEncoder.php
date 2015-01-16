@@ -101,12 +101,12 @@ class JavascriptEncoder implements ChainNode
     {
         if (in_array(gettype($value), static::$native)) {
             // If we got a scalar value, just encode it.
-            return $this->encodeScalar($value, $flags);
+            return $this->encoder->encodeScalar($value, $flags);
         } elseif (is_array($value)) {
-            return $this->encodeArray($value, $flags);
+            return $this->encoder->encodeArray($value, $flags);
         }
 
-        return $this->encodeObject($value, $flags);
+        return $this->encoder->encodeObject($value, $flags);
     }
 
     /**
@@ -118,15 +118,15 @@ class JavascriptEncoder implements ChainNode
 
         foreach ($arguments as $value) {
             if (is_callable($value)) {
-                $values[] = $this->encodeScalar($value, $flags);
+                $values[] = $this->encoder->encodeScalar($value, $flags);
             }
 
-            $ref = $this->encodeReference($value);
+            $ref = $this->encoder->encodeReference($value);
 
             if ($ref) {
                 $values[] = $ref;
             } else {
-                $values[] = $this->encodeValue($value, $flags);
+                $values[] = $this->encoder->encodeValue($value, $flags);
             }
         }
 
@@ -147,7 +147,7 @@ class JavascriptEncoder implements ChainNode
                 $buffer .= ', ';
             }
 
-            $value = $this->encodeReference($value) ?: $this->encodeValue($value);
+            $value = $this->encoder->encodeReference($value) ?: $this->encoder->encodeValue($value);
 
             if (is_numeric($key)) {
                 $buffer .= $value;
