@@ -53,4 +53,14 @@ interface Chain
      * @return Encoder
      */
     public function first($method);
+
+    /**
+     * Force to jump to a specific item in the chain. Useful to reset if some sub calls are made.
+     *
+     * @param string    $method     The method name.
+     * @param ChainNode $subscriber The current subscriber.
+     *
+     * @return Encoder
+     */
+    public function jumpTo($method, ChainNode $subscriber);
 }

@@ -161,7 +161,7 @@ class ChainEncoder implements Encoder, Chain
 
         $index = ++$this->current[$method];
 
-        $this->guardSubscribedMethod($method);
+        $this->guardMethodExists($method);
         $this->guardSubscriberExists($method, $index);
 
         return $this->methods[$method][$index];
@@ -190,12 +190,32 @@ class ChainEncoder implements Encoder, Chain
      */
     public function first($method)
     {
-        $this->guardSubscribedMethod($method);
+        $this->guardMethodExists($method);
         $this->guardSubscriberExists($method, 0);
 
         $this->current[$method] = 0;
 
         return $this->methods[$method][0];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jumpTo($method, ChainNode $subscriber)
+    {
+        $this->guardMethodExists($method);
+
+        foreach ($this->methods[$method] as $index => $item) {
+            if ($item === $subscriber) {
+                $this->current[$method] = $index;
+
+                return $this->methods[$method][$index];
+            }
+        }
+
+        throw new \BadMethodCallException(
+            sprintf('Could not find subscriber as registered subscribers of method call "%s".', $method)
+        );
     }
 
     /**
@@ -206,7 +226,7 @@ class ChainEncoder implements Encoder, Chain
      * @return void
      * @throws \BadMethodCallException If no subscribers were found.
      */
-    private function guardSubscribedMethod($method)
+    private function guardMethodExists($method)
     {
         if (!array_key_exists($method, $this->methods)) {
             throw new \BadMethodCallException(sprintf('No subscribers found for method call"%s"', $method));

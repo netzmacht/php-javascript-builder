@@ -13,6 +13,7 @@ namespace Netzmacht\JavascriptBuilder\Encoder\Chain;
 
 use Netzmacht\JavascriptBuilder\Encoder;
 use Netzmacht\JavascriptBuilder\Encoder\Chain;
+use Netzmacht\JavascriptBuilder\Encoder\ChainNode;
 
 /**
  * The standalone chain can be used if an Encoder should be used outside of a chain context.
@@ -71,6 +72,14 @@ class StandaloneChain implements Chain
      * {@inheritdoc}
      */
     public function first($method)
+    {
+        return $this->encoder;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function jumpTo($method, ChainNode $subscriber)
     {
         return $this->encoder;
     }
