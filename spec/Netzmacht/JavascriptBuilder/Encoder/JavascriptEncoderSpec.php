@@ -2,7 +2,9 @@
 
 namespace spec\Netzmacht\JavascriptBuilder\Encoder;
 
+use Assert\Tests\ChildStdClass;
 use Netzmacht\JavascriptBuilder\Encoder;
+use Netzmacht\JavascriptBuilder\Encoder\Chain;
 use Netzmacht\JavascriptBuilder\Output;
 use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
 use Netzmacht\JavascriptBuilder\Type\ReferencedByIdentifier;
@@ -82,22 +84,18 @@ class JavascriptEncoderSpec extends ObjectBehavior
         $this->close(JSON_FORCE_OBJECT)->shouldReturn('');
     }
 
-    function it_is_a_node_chain(Encoder $encoder)
+    function it_is_a_node_chain()
     {
         $this->shouldImplement('Netzmacht\JavascriptBuilder\Encoder\ChainNode');
-
-        $this->getEncoder()->shouldReturn($this);
-        $this->setEncoder($encoder)->shouldReturn($this);
-        $this->getEncoder()->shouldReturn($encoder);
     }
 
-    function it_delegates_encoding_to_root(Encoder $encoder, ConvertsToJavascript $toJavascript)
+    function it_delegates_encoding_to_chain(Chain $chain, ConvertsToJavascript $toJavascript, Encoder $encoder)
     {
-        $this->setEncoder($encoder)->shouldReturn($this);
+        $this->setChain($chain)->shouldReturn($this);
 
-        $this->delegatesEncoding('test', 'scalar', $encoder);
-        $this->delegatesEncoding($toJavascript, 'object', $encoder);
-        $this->delegatesEncoding(array('foo'), 'array', $encoder);
+        $this->delegatesEncoding('test', 'scalar', $chain, $encoder);
+        $this->delegatesEncoding($toJavascript, 'object', $chain, $encoder);
+        $this->delegatesEncoding(array('foo'), 'array', $chain, $encoder);
     }
 
     private function supportsScalar($input, $expected)
@@ -116,11 +114,11 @@ class JavascriptEncoderSpec extends ObjectBehavior
         return $this;
     }
 
-    private function delegatesEncoding($value, $type, Encoder $encoder)
+    private function delegatesEncoding($value, $type, Chain $chain, Encoder $encoder)
     {
         $method = 'encode' . ucfirst($type);
 
-        $encoder->$method($value, null)->willReturn(null);
+        $chain->first($method)->willReturn($encoder);
         $this->encodeValue($value);
     }
 }

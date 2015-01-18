@@ -98,12 +98,14 @@ you would only see the `bar.foo();` output of the example above.
 // Setup the dispatcher outside so that the listeners can be added.
 $dispatcher = new EventDispatcher();
 $factory    = function(Output $output) use ($dispatcher) {
-    return new ResultCacheEncoder(
-        new Netzmacht\JavascriptBuilder\Symfony\EventDispatchingEncoder(
-            new JavascriptEncoder($output),
-            $dispatcher
-        )
-    );
+    $encoder = new ChainEncoder();
+    
+    $encoder
+        ->register(new ResultCacheEncoder())
+        ->register(new Netzmacht\JavascriptBuilder\Symfony\EventDispatchingEncoder())
+        ->register(new JavascriptEncoder($output));
+    
+    return $encoder;
 };
 
 ```

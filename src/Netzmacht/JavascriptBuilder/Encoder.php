@@ -30,6 +30,8 @@ interface Encoder
      */
     const CLOSE_STATEMENT = 8192;
 
+    const BUILD_STACK = 16384;
+
     /**
      * Get the output.
      *
@@ -128,4 +130,13 @@ interface Encoder
      * @return string
      */
     public function close($flags);
+
+    /**
+     * Get the stack of to encoded objects.
+     *
+     * @param object $value The object value.
+     *
+     * @return array
+     */
+    public function getObjectStack($value);
 }

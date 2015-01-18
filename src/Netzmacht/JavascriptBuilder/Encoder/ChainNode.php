@@ -20,21 +20,21 @@ use Netzmacht\JavascriptBuilder\Encoder;
  *
  * @package Netzmacht\JavascriptBuilder\Encoder
  */
-interface ChainNode extends Encoder
+interface ChainNode
 {
     /**
-     * Get the encoder.
+     * Get a list of the subscribed methods.
      *
-     * @return Encoder
+     * @return array
      */
-    public function getEncoder();
+    public function getSubscribedMethods();
 
     /**
-     * Set the root encoder.
+     * Set the corresponding Chain.
      *
-     * @param Encoder $encoder The root encoder.
+     * @param Chain $chain The chain.
      *
      * @return $this
      */
-    public function setEncoder(Encoder $encoder);
+    public function setChain(Chain $chain);
 }

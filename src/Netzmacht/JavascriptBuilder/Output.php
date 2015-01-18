@@ -57,6 +57,18 @@ class Output
     }
 
     /**
+     * Clear the buffer.
+     *
+     * @return $this
+     */
+    public function clear()
+    {
+        $this->buffer = '';
+
+        return $this;
+    }
+
+    /**
      * Convert to string.
      *
      * @return string

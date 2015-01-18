@@ -11,10 +11,10 @@
 
 namespace Netzmacht\JavascriptBuilder\Symfony;
 
-use Netzmacht\JavascriptBuilder\Encoder\ChainNode;
-use Netzmacht\JavascriptBuilder\Encoder\DelegateEncoder;
+use Netzmacht\JavascriptBuilder\Encoder\AbstractChainNode;
 use Netzmacht\JavascriptBuilder\Symfony\Event\EncodeValueEvent;
 use Netzmacht\JavascriptBuilder\Symfony\Event\EncodeReferenceEvent;
+use Netzmacht\JavascriptBuilder\Symfony\Event\GetObjectStackEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatcher;
 
 /**
@@ -22,7 +22,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface as EventDispatche
  *
  * @package Netzmacht\JavascriptBuilder\Symfony
  */
-class EventDispatchingEncoder extends DelegateEncoder
+class EventDispatchingEncoder extends AbstractChainNode
 {
     /**
      * The event dispatcher.
@@ -34,14 +34,23 @@ class EventDispatchingEncoder extends DelegateEncoder
     /**
      * Construct.
      *
-     * @param ChainNode       $encoder         The child encoder.
      * @param EventDispatcher $eventDispatcher The event dispatcher.
      */
-    public function __construct(ChainNode $encoder, EventDispatcher $eventDispatcher)
+    public function __construct(EventDispatcher $eventDispatcher)
     {
-        parent::__construct($encoder);
-
         $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubscribedMethods()
+    {
+        return array(
+            'encodeObject',
+            'encodeReference',
+            'getObjectStack'
+        );
     }
 
     /**
@@ -54,14 +63,14 @@ class EventDispatchingEncoder extends DelegateEncoder
      */
     public function encodeObject($value, $flags = null)
     {
-        $event = new EncodeValueEvent($this->getEncoder(), $value, $flags);
+        $event = new EncodeValueEvent($this->chain->getEncoder(), $value, $flags);
         $this->eventDispatcher->dispatch($event::NAME, $event);
 
         if ($event->isSuccessful()) {
             return $event->getResult();
         }
 
-        return parent::encodeObject($value, $flags);
+        return $this->chain->next(__FUNCTION__)->encodeObject($value, $flags);
     }
 
     /**
@@ -80,6 +89,29 @@ class EventDispatchingEncoder extends DelegateEncoder
             return $event->getReference();
         }
 
-        return parent::encodeReference($value);
+        return $this->chain->next(__FUNCTION__)->encodeReference($value);
+    }
+
+    /**
+     * Get the stack of to encoded objects.
+     *
+     * @param object $value The object value.
+     *
+     * @return array
+     */
+    public function getObjectStack($value)
+    {
+        $event = new GetObjectStackEvent($value);
+        $this->eventDispatcher->dispatch($event::NAME, $event);
+
+        if ($event->getStack()) {
+            return $event->getStack();
+        }
+
+        if ($this->chain->hasNext(__FUNCTION__)) {
+            return $this->chain->next(__FUNCTION__);
+        }
+
+        return array();
     }
 }

@@ -11,8 +11,9 @@
 
 namespace Netzmacht\JavascriptBuilder;
 
+use Netzmacht\JavascriptBuilder\Encoder\ChainEncoder;
 use Netzmacht\JavascriptBuilder\Encoder\JavascriptEncoder;
-use Netzmacht\JavascriptBuilder\Encoder\ResultCacheEncoder;
+use Netzmacht\JavascriptBuilder\Encoder\MultipleObjectsEncoder;
 use Netzmacht\JavascriptBuilder\Util\Flags;
 
 /**
@@ -41,10 +42,13 @@ class Builder
 
         } else {
             $this->encoderFactory = function (Output $output) {
-                $encoder = new JavascriptEncoder($output);
-                $cache   = new ResultCacheEncoder($encoder);
+                $encoder = new ChainEncoder();
 
-                return $cache;
+                $encoder
+                    ->register(new MultipleObjectsEncoder())
+                    ->register(new JavascriptEncoder($output));
+
+                return $encoder;
             };
         }
     }

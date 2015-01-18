@@ -12,8 +12,10 @@
 namespace Netzmacht\JavascriptBuilder\Encoder;
 
 use Netzmacht\JavascriptBuilder\Encoder;
+use Netzmacht\JavascriptBuilder\Encoder\Chain\StandaloneChain;
 use Netzmacht\JavascriptBuilder\Exception\EncodeValueFailed;
 use Netzmacht\JavascriptBuilder\Output;
+use Netzmacht\JavascriptBuilder\Type\HasStackInformation;
 use Netzmacht\JavascriptBuilder\Type\ReferencedByIdentifier;
 use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
 use Netzmacht\JavascriptBuilder\Util\Flags;
@@ -23,7 +25,7 @@ use Netzmacht\JavascriptBuilder\Util\Flags;
  *
  * @package Netzmacht\Javascript
  */
-class JavascriptEncoder implements ChainNode
+class JavascriptEncoder extends AbstractChainNode implements Encoder
 {
     /**
      * List of native values.
@@ -47,13 +49,6 @@ class JavascriptEncoder implements ChainNode
     private $output;
 
     /**
-     * The root encoder.
-     *
-     * @var Encoder
-     */
-    private $encoder;
-
-    /**
      * Construct.
      *
      * @param Output   $output The generated output.
@@ -61,27 +56,28 @@ class JavascriptEncoder implements ChainNode
      */
     public function __construct(Output $output, $flags = null)
     {
-        $this->encoder = $this;
-        $this->output  = $output;
-        $this->flags   = $flags;
+        $this->output = $output;
+        $this->flags  = $flags;
+        $this->chain  = new StandaloneChain($this);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getEncoder()
+    public function getSubscribedMethods()
     {
-        return $this->encoder;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setEncoder(Encoder $encoder)
-    {
-        $this->encoder = $encoder;
-
-        return $this;
+        return array(
+            'setFlags',
+            'getFlags',
+            'getOutput',
+            'encodeValue',
+            'encodeArguments',
+            'encodeArray',
+            'encodeReference',
+            'encodeScalar',
+            'encodeObject',
+            'close',
+        );
     }
 
     /**
@@ -119,12 +115,12 @@ class JavascriptEncoder implements ChainNode
     {
         if (in_array(gettype($value), static::$native)) {
             // If we got a scalar value, just encode it.
-            return $this->encoder->encodeScalar($value, $flags);
+            return $this->chain->first('encodeScalar')->encodeScalar($value, $flags);
         } elseif (is_array($value)) {
-            return $this->encoder->encodeArray($value, $flags);
+            return $this->chain->first('encodeArray')->encodeArray($value, $flags);
         }
 
-        return $this->encoder->encodeObject($value, $flags);
+        return $this->chain->first('encodeObject')->encodeObject($value, $flags);
     }
 
     /**
@@ -136,15 +132,15 @@ class JavascriptEncoder implements ChainNode
 
         foreach ($arguments as $value) {
             if (is_callable($value)) {
-                $values[] = $this->encoder->encodeScalar($value, $flags);
+                $values[] = $this->chain->first('encodeScalar')->encodeScalar($value, $flags);
             }
 
-            $ref = $this->encoder->encodeReference($value);
+            $ref = $this->chain->first('encodeReference')->encodeReference($value);
 
             if ($ref) {
                 $values[] = $ref;
             } else {
-                $values[] = $this->encoder->encodeValue($value, $flags);
+                $values[] = $this->chain->first('encodeValue')->encodeValue($value, $flags);
             }
         }
 
@@ -165,7 +161,8 @@ class JavascriptEncoder implements ChainNode
                 $buffer .= ', ';
             }
 
-            $value = $this->encoder->encodeReference($value) ?: $this->encoder->encodeValue($value);
+            $value = $this->chain->first('encodeReference')->encodeReference($value)
+                ?: $this->chain->first('encodeValue')->encodeValue($value);
 
             if (is_numeric($key)) {
                 $buffer .= $value;
@@ -209,9 +206,9 @@ class JavascriptEncoder implements ChainNode
     public function encodeObject($value, $flags = null)
     {
         if ($value instanceof ConvertsToJavascript) {
-            return $value->encode($this->encoder, $flags);
+            return $value->encode($this->chain->getEncoder(), $flags);
         } elseif ($value instanceof \JsonSerializable) {
-            return $this->encoder->encodeScalar($value, $flags);
+            return $this->chain->first('encodeScalar')->encodeScalar($value, $flags);
         }
 
         throw new EncodeValueFailed($value);
@@ -223,6 +220,26 @@ class JavascriptEncoder implements ChainNode
     public function close($flags)
     {
         return Flags::contains(static::CLOSE_STATEMENT, $flags) ? ';' : '';
+    }
+
+    /**
+     * Get the stack of to encoded objects.
+     *
+     * @param object $value The object value.
+     *
+     * @return array
+     */
+    public function getObjectStack($value)
+    {
+        if ($value instanceof HasStackInformation) {
+            return $value->getObjectStack();
+        }
+
+        if ($this->chain->hasNext(__FUNCTION__)) {
+            return $this->chain->next(__FUNCTION__)->getObjectStack($value);
+        }
+
+        return array();
     }
 
     /**
