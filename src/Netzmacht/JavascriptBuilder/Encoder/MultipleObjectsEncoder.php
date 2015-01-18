@@ -86,13 +86,17 @@ class MultipleObjectsEncoder extends AbstractChainNode
         $hash = $this->hash($value);
 
         if (!array_key_exists($hash, $this->values)) {
+            $next = $this->chain->next(__FUNCTION__);
+
             if (Flags::contains(Encoder::BUILD_STACK, $flags)) {
                 $flags = Flags::remove(Encoder::BUILD_STACK, $flags);
                 $this->buildStack($value, $flags);
             }
 
+            $this->chain->jumpTo(__FUNCTION__, $next);
+
             $this->values[$hash] = null;
-            $this->values[$hash] = $this->chain->next(__FUNCTION__)->encodeObject($value, $flags);
+            $this->values[$hash] = $next->encodeObject($value, $flags);
         }
 
         return $this->values[$hash];
@@ -173,11 +177,16 @@ class MultipleObjectsEncoder extends AbstractChainNode
     private function buildStack($value, $flags)
     {
         $encoder = $this->chain->getEncoder();
-        $stack   = $encoder->getObjectStack($value);
         $output  = $encoder->getOutput();
 
+        $stack   = $encoder->getObjectStack($value);
+        $built   = array();
+
         foreach ($stack as $item) {
-            $output->append($encoder->encodeObject($item, $flags));
+            if (!in_array($item, $built)) {
+                $output->append($encoder->encodeObject($item, $flags));
+                $built[] = $item;
+            }
         }
     }
 }
