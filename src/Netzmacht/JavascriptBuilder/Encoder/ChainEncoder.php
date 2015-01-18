@@ -37,25 +37,6 @@ class ChainEncoder implements Encoder, Chain
     /**
      * {@inheritdoc}
      */
-    public function getSubscribedMethods()
-    {
-        return array(
-            'setFlags',
-            'getFlags',
-            'getOutput',
-            'encodeValue',
-            'encodeArguments',
-            'encodeArray',
-            'encodeReference',
-            'encodeScalar',
-            'encodeObject',
-            'close',
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getOutput()
     {
         return $this->first(__FUNCTION__)->getOutput();

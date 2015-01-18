@@ -61,16 +61,17 @@ class MultipleObjectsEncoder extends AbstractChainNode
      */
     public function encodeValue($value, $flags = null)
     {
-        $hash = $this->hash($value);
+        $hash    = $this->hash($value);
+        $encoder = $this->chain->getEncoder();
 
         if (!array_key_exists($hash, $this->values)) {
             if (in_array(gettype($value), static::$native)) {
                 // If we got a scalar value, just encode it.
-                $this->values[$hash] = $this->chain->first('encodeScalar')->encodeScalar($value, $flags);
+                $this->values[$hash] = $encoder->encodeScalar($value, $flags);
             } elseif (is_array($value)) {
-                $this->values[$hash] = $this->chain->first('encodeArray')->encodeArray($value, $flags);
+                $this->values[$hash] = $encoder->encodeArray($value, $flags);
             } else {
-                $this->values[$hash] = $this->chain->first('encodeObject')->encodeObject($value, $flags);
+                $this->values[$hash] = $encoder->encodeObject($value, $flags);
             }
         }
 
