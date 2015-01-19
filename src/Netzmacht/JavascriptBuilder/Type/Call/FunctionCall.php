@@ -13,13 +13,14 @@ namespace Netzmacht\JavascriptBuilder\Type\Call;
 
 use Netzmacht\JavascriptBuilder\Encoder;
 use Netzmacht\JavascriptBuilder\Type\Arguments;
+use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
 
 /**
  * Class FunctionCall is used for named function calls. They have to be defined somewhere else.
  *
  * @package Netzmacht\JavascriptBuilder\Type\Call
  */
-class FunctionCall extends Arguments
+class FunctionCall implements ConvertsToJavascript
 {
     /**
      * Function name.
@@ -27,6 +28,13 @@ class FunctionCall extends Arguments
      * @var string
      */
     private $name;
+
+    /**
+     * Arguments.
+     *
+     * @var Arguments
+     */
+    private $arguments;
 
     /**
      * Construct.
@@ -37,9 +45,8 @@ class FunctionCall extends Arguments
      */
     public function __construct($name, array $arguments = array(), $definition = null)
     {
-        parent::__construct($arguments, $definition);
-
-        $this->name = $name;
+        $this->arguments = new Arguments($arguments);
+        $this->name      = $name;
     }
 
     /**
@@ -53,6 +60,16 @@ class FunctionCall extends Arguments
     }
 
     /**
+     * Get the arguments.
+     *
+     * @return Arguments
+     */
+    public function getArguments()
+    {
+        return $this->arguments;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function encode(Encoder $encoder, $flags = null)
@@ -60,7 +77,7 @@ class FunctionCall extends Arguments
         return sprintf(
             '%s(%s)%s',
             $this->getName(),
-            $encoder->encodeArguments($this->getArguments(), $flags),
+            $this->arguments->encode($encoder, $flags),
             $encoder->close($flags)
         );
     }
