@@ -179,8 +179,8 @@ class MultipleObjectsEncoder extends AbstractChainNode
         $encoder = $this->chain->getEncoder();
         $output  = $encoder->getOutput();
 
-        $stack   = $encoder->getObjectStack($value);
-        $built   = array();
+        $stack = $encoder->getObjectStack($value);
+        $built = array();
 
         foreach ($stack as $item) {
             if (!in_array($item, $built)) {

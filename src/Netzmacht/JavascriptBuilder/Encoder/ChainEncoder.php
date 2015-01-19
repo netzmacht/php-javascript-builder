@@ -200,6 +200,7 @@ class ChainEncoder implements Encoder, Chain
 
     /**
      * {@inheritdoc}
+     * @throws \BadMethodCallException If jumpTo point does not exists.
      */
     public function jumpTo($method, ChainNode $subscriber)
     {
