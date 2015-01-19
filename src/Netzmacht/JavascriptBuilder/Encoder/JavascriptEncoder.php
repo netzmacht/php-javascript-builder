@@ -131,8 +131,9 @@ class JavascriptEncoder extends AbstractChainNode implements Encoder
         $values = array();
 
         foreach ($arguments as $value) {
-            if (is_callable($value)) {
+            if (in_array($value, static::$native) || $value instanceof \JsonSerializable) {
                 $values[] = $this->chain->first('encodeScalar')->encodeScalar($value, $flags);
+                continue;
             }
 
             $ref = $this->chain->first('encodeReference')->encodeReference($value);
