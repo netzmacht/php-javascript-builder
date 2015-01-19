@@ -47,6 +47,20 @@ class Output
     }
 
     /**
+     * Add a line to the beginning.
+     *
+     * @param string $line The built line.
+     *
+     * @return $this
+     */
+    public function prepend($line)
+    {
+        $this->buffer = $line . ($this->buffer ? ($this->separator . $this->buffer) : '');
+
+        return $this;
+    }
+
+    /**
      * Get lines.
      *
      * @return string
