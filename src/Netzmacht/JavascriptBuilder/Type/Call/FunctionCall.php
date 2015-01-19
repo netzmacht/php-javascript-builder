@@ -39,11 +39,10 @@ class FunctionCall implements ConvertsToJavascript
     /**
      * Construct.
      *
-     * @param string $name       Function name.
-     * @param array  $arguments  Method arguments.
-     * @param null   $definition Linked definition.
+     * @param string $name      Function name.
+     * @param array  $arguments Method arguments.
      */
-    public function __construct($name, array $arguments = array(), $definition = null)
+    public function __construct($name, array $arguments = array())
     {
         $this->arguments = new Arguments($arguments);
         $this->name      = $name;

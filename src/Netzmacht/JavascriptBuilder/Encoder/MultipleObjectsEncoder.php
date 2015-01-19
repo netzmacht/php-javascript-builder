@@ -23,13 +23,6 @@ use Netzmacht\JavascriptBuilder\Util\Flags;
 class MultipleObjectsEncoder extends AbstractChainNode
 {
     /**
-     * List of native values.
-     *
-     * @var array
-     */
-    private static $native = array('string', 'integer', 'double', 'NULL', 'boolean');
-
-    /**
      * Values cache.
      *
      * @var array
