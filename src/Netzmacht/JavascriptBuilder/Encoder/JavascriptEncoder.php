@@ -129,6 +129,7 @@ class JavascriptEncoder extends AbstractChainNode implements Encoder
     public function encodeArguments(array $arguments, $flags = null)
     {
         $values = array();
+        $flags  = Flags::remove(Encoder::CLOSE_STATEMENT, $flags);
 
         foreach ($arguments as $value) {
             if (in_array($value, static::$native) || $value instanceof \JsonSerializable) {

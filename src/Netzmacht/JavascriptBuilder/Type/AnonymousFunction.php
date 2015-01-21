@@ -74,7 +74,7 @@ class AnonymousFunction extends Arguments
     /**
      * {@inheritdoc}
      */
-    public function encode(Encoder $encoder, $flags = Encoder::CLOSE_STATEMENT)
+    public function encode(Encoder $encoder, $flags = null)
     {
         return sprintf(
             'function(%s) { %s } %s',
