@@ -9,7 +9,7 @@
  *
  */
 
-namespace Netzmacht\JavascriptBuilder\Util;
+namespace Netzmacht\JavascriptBuilder;
 
 /**
  * Simple flags util helper for handling bitwise operators.
@@ -18,6 +18,24 @@ namespace Netzmacht\JavascriptBuilder\Util;
  */
 class Flags
 {
+    /**
+     * Close statement flag.
+     *
+     * Pass it if you want to close the statement when encoding.
+     *
+     * Note: The flags are also passed to the json_encode method. That's why a high number is chosen. Potentially
+     * have to be changed in the future.
+     */
+    const CLOSE_STATEMENT = 8192;
+
+    /**
+     * Build stack flag.
+     *
+     * If the flag is set the encoder should try to get the object stack first before encoding it. It's usually
+     * recommend to set this flag and provide the stack information to avoid nested methods call limit.
+     */
+    const BUILD_STACK = 16384;
+
     /**
      * Check if a flag is used.
      *

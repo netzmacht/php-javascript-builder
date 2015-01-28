@@ -5,6 +5,7 @@ namespace spec\Netzmacht\JavascriptBuilder\Encoder;
 use Assert\Tests\ChildStdClass;
 use Netzmacht\JavascriptBuilder\Encoder;
 use Netzmacht\JavascriptBuilder\Encoder\Chain;
+use Netzmacht\JavascriptBuilder\Flags;
 use Netzmacht\JavascriptBuilder\Output;
 use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
 use Netzmacht\JavascriptBuilder\Type\ReferencedByIdentifier;
@@ -72,15 +73,15 @@ class JavascriptEncoderSpec extends ObjectBehavior
     function it_encodes_object(ConvertsToJavascript $toJavascript)
     {
         $toJavascript->encode($this, null)->willReturn('alert("ok")');
-        $toJavascript->encode($this, Encoder::CLOSE_STATEMENT)->willReturn('alert("ok");');
+        $toJavascript->encode($this, Flags::CLOSE_STATEMENT)->willReturn('alert("ok");');
 
         $this->encodeValue($toJavascript)->shouldReturn('alert("ok")');
-        $this->encodeValue($toJavascript, Encoder::CLOSE_STATEMENT)->shouldReturn('alert("ok");');
+        $this->encodeValue($toJavascript, Flags::CLOSE_STATEMENT)->shouldReturn('alert("ok");');
     }
 
     function it_closes_statement()
     {
-        $this->close(Encoder::CLOSE_STATEMENT)->shouldReturn(';');
+        $this->close(Flags::CLOSE_STATEMENT)->shouldReturn(';');
         $this->close(JSON_FORCE_OBJECT)->shouldReturn('');
     }
 

@@ -13,7 +13,7 @@ namespace Netzmacht\JavascriptBuilder\Encoder;
 
 use Netzmacht\JavascriptBuilder\Encoder;
 use Netzmacht\JavascriptBuilder\Type\HasStackInformation;
-use Netzmacht\JavascriptBuilder\Util\Flags;
+use Netzmacht\JavascriptBuilder\Flags;
 
 /**
  * Class MultipleObjectsEncoder allows to generate a whole stack of objects.
@@ -75,9 +75,9 @@ class MultipleObjectsEncoder extends AbstractChainNode
         if (!array_key_exists($hash, $this->values)) {
             $next = $this->chain->next(__FUNCTION__);
 
-            if (Flags::contains(Encoder::BUILD_STACK, $flags)) {
-                $flags = Flags::remove(Encoder::BUILD_STACK, $flags);
-                $flags = Flags::add(Encoder::CLOSE_STATEMENT, $flags);
+            if (Flags::contains(Flags::BUILD_STACK, $flags)) {
+                $flags = Flags::remove(Flags::BUILD_STACK, $flags);
+                $flags = Flags::add(Flags::CLOSE_STATEMENT, $flags);
 
                 $this->buildStack($value, $flags);
             }
@@ -110,7 +110,7 @@ class MultipleObjectsEncoder extends AbstractChainNode
                 $encoder->getOutput()->append(
                     $encoder->encodeObject(
                         $value,
-                        Flags::add(Encoder::CLOSE_STATEMENT, $encoder->getFlags())
+                        Flags::add(Flags::CLOSE_STATEMENT, $encoder->getFlags())
                     )
                 );
             }

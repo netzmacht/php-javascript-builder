@@ -14,7 +14,7 @@ namespace Netzmacht\JavascriptBuilder;
 use Netzmacht\JavascriptBuilder\Encoder\ChainEncoder;
 use Netzmacht\JavascriptBuilder\Encoder\JavascriptEncoder;
 use Netzmacht\JavascriptBuilder\Encoder\MultipleObjectsEncoder;
-use Netzmacht\JavascriptBuilder\Util\Flags;
+use Netzmacht\JavascriptBuilder\Flags;
 
 /**
  * Class Builder is the main entry point to encode an object.
@@ -82,7 +82,7 @@ class Builder
      *
      * @return string
      */
-    public function encode($value, $flags = Encoder::CLOSE_STATEMENT, Output $output = null)
+    public function encode($value, $flags = Flags::CLOSE_STATEMENT, Output $output = null)
     {
         $factory = $this->encoderFactory;
         $output  = $output ?: new Output();

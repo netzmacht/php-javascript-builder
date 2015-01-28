@@ -18,7 +18,7 @@ use Netzmacht\JavascriptBuilder\Output;
 use Netzmacht\JavascriptBuilder\Type\HasStackInformation;
 use Netzmacht\JavascriptBuilder\Type\ReferencedByIdentifier;
 use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
-use Netzmacht\JavascriptBuilder\Util\Flags;
+use Netzmacht\JavascriptBuilder\Flags;
 
 /**
  * Class Encoder provides methods to encode javascript for several input types.
@@ -129,7 +129,7 @@ class JavascriptEncoder extends AbstractChainNode implements Encoder
     public function encodeArguments(array $arguments, $flags = null)
     {
         $values = array();
-        $flags  = Flags::remove(Encoder::CLOSE_STATEMENT, $flags);
+        $flags  = Flags::remove(Flags::CLOSE_STATEMENT, $flags);
 
         foreach ($arguments as $value) {
             if (in_array($value, static::$native) || $value instanceof \JsonSerializable) {
@@ -221,7 +221,7 @@ class JavascriptEncoder extends AbstractChainNode implements Encoder
      */
     public function close($flags)
     {
-        return Flags::contains(static::CLOSE_STATEMENT, $flags) ? ';' : '';
+        return Flags::contains(Flags::CLOSE_STATEMENT, $flags) ? ';' : '';
     }
 
     /**

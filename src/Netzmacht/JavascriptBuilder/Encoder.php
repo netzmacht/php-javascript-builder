@@ -21,18 +21,6 @@ use Netzmacht\JavascriptBuilder\Exception\EncodeValueFailed;
 interface Encoder
 {
     /**
-     * Close statement flag.
-     *
-     * Pass it if you want to close the statement when encoding.
-     *
-     * Note: The flags are also passed to the json_encode method. That's why a high number is chosen. Potentially
-     * have to be changed in the future.
-     */
-    const CLOSE_STATEMENT = 8192;
-
-    const BUILD_STACK = 16384;
-
-    /**
      * Get the output.
      *
      * @return Output
