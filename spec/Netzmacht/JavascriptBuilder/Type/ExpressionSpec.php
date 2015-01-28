@@ -8,18 +8,18 @@ use Netzmacht\JavascriptBuilder\Output;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class ArgumentsSpec extends ObjectBehavior
+class ExpressionSpec extends ObjectBehavior
 {
-    protected static $arguments = array('bar', true, null, 1);
+    const EXPR = 'expr';
 
     function let()
     {
-        $this->beConstructedWith(static::$arguments);
+        $this->beConstructedWith(static::EXPR);
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Netzmacht\JavascriptBuilder\Type\Arguments');
+        $this->shouldHaveType('Netzmacht\JavascriptBuilder\Type\Expression');
     }
 
     function it_converts_to_javascript()
@@ -27,16 +27,16 @@ class ArgumentsSpec extends ObjectBehavior
         $this->shouldHaveType('Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript');
     }
 
-    function it_has_arguments()
+    function it_converts_to_string()
     {
-        $this->getArguments()->shouldReturn(static::$arguments);
+        $this->__toString()->shouldReturn(static::EXPR);
     }
 
     function it_encodes()
     {
         $encoder = new JavascriptEncoder(new Output());
 
-        $this->encode($encoder)->shouldReturn('"bar", true, null, 1');
-        $this->encode($encoder, Flags::CLOSE_STATEMENT)->shouldReturn('"bar", true, null, 1');
+        $this->encode($encoder)->shouldReturn(static::EXPR);
+        $this->encode($encoder, Flags::CLOSE_STATEMENT)->shouldReturn(static::EXPR . ';');
     }
 }

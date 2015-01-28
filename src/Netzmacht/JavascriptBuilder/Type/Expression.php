@@ -38,6 +38,16 @@ class Expression implements ConvertsToJavascript
     }
 
     /**
+     * Convert to string.
+     *
+     * @return string
+     */
+    function __toString()
+    {
+        return $this->expression;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function encode(Encoder $encoder, $flags = null)
