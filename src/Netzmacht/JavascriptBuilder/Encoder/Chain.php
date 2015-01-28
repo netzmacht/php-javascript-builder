@@ -32,7 +32,7 @@ interface Chain
      *
      * @param string $method The method name.
      *
-     * @return Encoder
+     * @return ChainNode
      */
     public function next($method);
 
@@ -50,7 +50,7 @@ interface Chain
      *
      * @param string $method The method name.
      *
-     * @return Encoder
+     * @return ChainNode
      */
     public function first($method);
 
@@ -60,7 +60,7 @@ interface Chain
      * @param string    $method     The method name.
      * @param ChainNode $subscriber The current subscriber.
      *
-     * @return Encoder
+     * @return ChainNode
      */
     public function jumpTo($method, ChainNode $subscriber);
 }

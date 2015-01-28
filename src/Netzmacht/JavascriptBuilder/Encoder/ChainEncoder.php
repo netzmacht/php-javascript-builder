@@ -70,7 +70,7 @@ class ChainEncoder implements Encoder, Chain
      */
     public function encodeValue($value, $flags = null)
     {
-        if (in_array(gettype($value), static::$native)) {
+        if (in_array(gettype($value), self::$native)) {
             return $this->first('encodeScalar')->encodeScalar($value, $flags);
         } elseif (is_array($value)) {
             return $this->first('encodeArray')->encodeArray($value, $flags);

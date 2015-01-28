@@ -113,7 +113,7 @@ class JavascriptEncoder extends AbstractChainNode
      */
     public function encodeValue($value, $flags = null)
     {
-        if (in_array(gettype($value), static::$native)) {
+        if (in_array(gettype($value), self::$native)) {
             // If we got a scalar value, just encode it.
             return $this->chain->first('encodeScalar')->encodeScalar($value, $flags);
         } elseif (is_array($value)) {
@@ -132,7 +132,7 @@ class JavascriptEncoder extends AbstractChainNode
         $flags  = Flags::remove(Flags::CLOSE_STATEMENT, $flags);
 
         foreach ($arguments as $value) {
-            if (in_array($value, static::$native) || $value instanceof \JsonSerializable) {
+            if (in_array($value, self::$native) || $value instanceof \JsonSerializable) {
                 $values[] = $this->chain->first('encodeScalar')->encodeScalar($value, $flags);
                 continue;
             }
