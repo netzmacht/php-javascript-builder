@@ -25,7 +25,7 @@ use Netzmacht\JavascriptBuilder\Flags;
  *
  * @package Netzmacht\Javascript
  */
-class JavascriptEncoder extends AbstractChainNode implements Encoder
+class JavascriptEncoder extends AbstractChainNode
 {
     /**
      * List of native values.

@@ -20,7 +20,7 @@ use Netzmacht\JavascriptBuilder\Encoder;
  *
  * @package Netzmacht\JavascriptBuilder\Encoder
  */
-interface ChainNode
+interface ChainNode extends Encoder
 {
     /**
      * Get a list of the subscribed methods.
