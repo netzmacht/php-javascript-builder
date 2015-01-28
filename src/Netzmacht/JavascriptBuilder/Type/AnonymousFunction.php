@@ -18,7 +18,7 @@ use Netzmacht\JavascriptBuilder\Encoder;
  *
  * @package Netzmacht\JavascriptBuilder\Type\Call
  */
-class AnonymousFunction extends Arguments
+class AnonymousFunction implements ConvertsToJavascript
 {
     /**
      * Function lines.
@@ -26,6 +26,33 @@ class AnonymousFunction extends Arguments
      * @var array
      */
     private $lines = array();
+
+    /**
+     * Argument names.
+     *
+     * @var array
+     */
+    private $argumentNames = array();
+
+    /**
+     * Construct.
+     *
+     * @param array $argumentNames The argument names.
+     */
+    public function __construct($argumentNames = array())
+    {
+        $this->argumentNames = $argumentNames;
+    }
+
+    /**
+     * Get argument names.
+     *
+     * @return array
+     */
+    public function getArgumentNames()
+    {
+        return $this->argumentNames;
+    }
 
     /**
      * Add a new line.
@@ -77,8 +104,8 @@ class AnonymousFunction extends Arguments
     public function encode(Encoder $encoder, $flags = null)
     {
         return sprintf(
-            'function(%s) { %s } %s',
-            parent::encode($encoder, $flags),
+            'function(%s) { %s }%s',
+            implode(', ', $this->argumentNames),
             implode("\n", $this->getLines()),
             $encoder->close($flags)
         );

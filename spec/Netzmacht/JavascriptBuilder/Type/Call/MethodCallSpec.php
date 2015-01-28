@@ -25,6 +25,11 @@ class MethodCallSpec extends ObjectBehavior
         $this->shouldHaveType('Netzmacht\JavascriptBuilder\Type\Call\FunctionCall');
     }
 
+    function it_converts_to_javascript()
+    {
+        $this->shouldHaveType('Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript');
+    }
+
     function it_has_a_name()
     {
         $this->getName()->shouldReturn(self::NAME);
