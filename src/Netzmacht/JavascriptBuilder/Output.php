@@ -33,6 +33,30 @@ class Output
     private $separator = "\n";
 
     /**
+     * Set separator.
+     *
+     * @param string $separator Separator.
+     *
+     * @return $this
+     */
+    public function setSeparator($separator)
+    {
+        $this->separator = $separator;
+
+        return $this;
+    }
+
+    /**
+     * Get separator.
+     *
+     * @return string
+     */
+    public function getSeparator()
+    {
+        return $this->separator;
+    }
+
+    /**
      * Add a line.
      *
      * @param string $line The built line.
@@ -41,7 +65,12 @@ class Output
      */
     public function append($line)
     {
-        $this->buffer .= $this->separator . $line;
+        if ($this->buffer) {
+            $this->buffer .= $this->separator . $line;
+        } else {
+            $this->buffer = $line;
+        }
+
 
         return $this;
     }
