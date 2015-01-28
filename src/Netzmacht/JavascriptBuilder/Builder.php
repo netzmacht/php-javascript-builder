@@ -14,7 +14,6 @@ namespace Netzmacht\JavascriptBuilder;
 use Netzmacht\JavascriptBuilder\Encoder\ChainEncoder;
 use Netzmacht\JavascriptBuilder\Encoder\JavascriptEncoder;
 use Netzmacht\JavascriptBuilder\Encoder\MultipleObjectsEncoder;
-use Netzmacht\JavascriptBuilder\Flags;
 
 /**
  * Class Builder is the main entry point to encode an object.
@@ -39,7 +38,6 @@ class Builder
     {
         if ($encoderFactory) {
             $this->setEncoderFactory($encoderFactory);
-
         } else {
             $this->encoderFactory = function (Output $output) {
                 $encoder = new ChainEncoder();
