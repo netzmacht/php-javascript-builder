@@ -42,7 +42,7 @@ class Expression implements ConvertsToJavascript
      *
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         return $this->expression;
     }
