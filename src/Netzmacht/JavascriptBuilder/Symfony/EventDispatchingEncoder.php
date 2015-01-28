@@ -109,7 +109,7 @@ class EventDispatchingEncoder extends AbstractChainNode
         }
 
         if ($this->chain->hasNext(__FUNCTION__)) {
-            return $this->chain->next(__FUNCTION__);
+            return $this->chain->next(__FUNCTION__)->getObjectStack($value);
         }
 
         return array();
