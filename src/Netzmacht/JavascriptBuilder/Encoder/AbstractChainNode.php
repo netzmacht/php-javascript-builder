@@ -12,8 +12,6 @@
 namespace Netzmacht\JavascriptBuilder\Encoder;
 
 use Netzmacht\JavascriptBuilder\Encoder;
-use Netzmacht\JavascriptBuilder\Output;
-use Netzmacht\JavascriptBuilder\Exception\EncodeValueFailed;
 
 /**
  * The base implementation for chain node encoder subscribers.
