@@ -25,14 +25,14 @@ class Builder
     /**
      * A callable which expects the Output object as argument and creates the encoder.
      *
-     * @var \callable
+     * @var callable
      */
     private $encoderFactory;
 
     /**
      * Construct.
      *
-     * @param \callable $encoderFactory The encoder factory.
+     * @param callable $encoderFactory The encoder factory.
      */
     public function __construct($encoderFactory = null)
     {

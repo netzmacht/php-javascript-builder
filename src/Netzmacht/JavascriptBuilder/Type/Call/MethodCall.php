@@ -30,7 +30,7 @@ class MethodCall extends FunctionCall
     /**
      * Construct.
      *
-     * @param string $object    The object of the method.
+     * @param object $object    The object of the method.
      * @param string $name      Function name.
      * @param array  $arguments Method arguments.
      */
