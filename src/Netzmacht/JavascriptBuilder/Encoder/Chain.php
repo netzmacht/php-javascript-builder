@@ -57,14 +57,4 @@ interface Chain
      * @return mixed
      */
     public function first($method, array $arguments = array());
-
-    /**
-     * Force to jump to a specific item in the chain. Useful to reset if some sub calls are made.
-     *
-     * @param string    $method     The method name.
-     * @param ChainNode $subscriber The current subscriber.
-     *
-     * @return mixed
-     */
-    public function jumpTo($method, ChainNode $subscriber);
 }

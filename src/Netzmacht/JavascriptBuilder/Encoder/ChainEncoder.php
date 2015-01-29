@@ -192,27 +192,6 @@ class ChainEncoder implements Encoder, Chain
     }
 
     /**
-     * {@inheritdoc}
-     * @throws \BadMethodCallException If jumpTo point does not exists.
-     */
-    public function jumpTo($method, ChainNode $subscriber)
-    {
-        $this->guardMethodExists($method);
-
-        foreach ($this->methods[$method] as $index => $item) {
-            if ($item === $subscriber) {
-                $this->current[$method] = $index;
-
-                return $this->methods[$method][$index];
-            }
-        }
-
-        throw new \BadMethodCallException(
-            sprintf('Could not find subscriber as registered subscribers of method call "%s".', $method)
-        );
-    }
-
-    /**
      * Guard that a method is subscribed.
      *
      * @param string $method The method name.

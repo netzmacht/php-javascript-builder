@@ -75,12 +75,4 @@ class StandaloneChain implements Chain
     {
         return call_user_func_array([$this->encoder, $method], $arguments);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function jumpTo($method, ChainNode $subscriber)
-    {
-        return $this->encoder;
-    }
 }
