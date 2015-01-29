@@ -119,7 +119,7 @@ class JavascriptEncoderSpec extends ObjectBehavior
     {
         $method = 'encode' . ucfirst($type);
 
-        $chain->first($method)->willReturn($encoder);
+        $chain->first($method, [$value, null])->willReturn($encoder);
         $this->encodeValue($value);
     }
 }
