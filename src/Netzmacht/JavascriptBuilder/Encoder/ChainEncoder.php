@@ -28,13 +28,6 @@ class ChainEncoder implements Encoder, Chain
     private $methods = array();
 
     /**
-     * The current position for subscribed methods.
-     *
-     * @var array
-     */
-    private $current = array();
-
-    /**
      * {@inheritdoc}
      */
     public function getOutput()
