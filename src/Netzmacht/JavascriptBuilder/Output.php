@@ -66,10 +66,10 @@ class Output
     public function append($line)
     {
         if ($this->buffer) {
-            $this->buffer .= $this->separator . $line;
-        } else {
-            $this->buffer = $line;
+            $line = $this->separator . $line;
         }
+
+        $this->buffer .= $line;
 
 
         return $this;
@@ -84,7 +84,12 @@ class Output
      */
     public function prepend($line)
     {
-        $this->buffer = $line . ($this->buffer ? ($this->separator . $this->buffer) : '');
+        if ($this->buffer) {
+             $line .= $this->separator . $this->buffer;
+        }
+
+        $this->buffer = $line;
+
 
         return $this;
     }
