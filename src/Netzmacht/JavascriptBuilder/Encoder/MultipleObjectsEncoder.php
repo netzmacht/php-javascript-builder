@@ -12,7 +12,6 @@
 namespace Netzmacht\JavascriptBuilder\Encoder;
 
 use Netzmacht\JavascriptBuilder\Encoder;
-use Netzmacht\JavascriptBuilder\Type\HasStackInformation;
 use Netzmacht\JavascriptBuilder\Flags;
 
 /**
@@ -44,8 +43,7 @@ class MultipleObjectsEncoder extends AbstractChainNode
         return array(
             'encodeValue',
             'encodeObject',
-            'encodeReference',
-            'getObjectStack'
+            'encodeReference'
         );
     }
 
@@ -117,26 +115,6 @@ class MultipleObjectsEncoder extends AbstractChainNode
         }
 
         return $this->references[$hash];
-    }
-
-    /**
-     * Get the stack of to encoded objects.
-     *
-     * @param object $value The object value.
-     *
-     * @return array
-     */
-    public function getObjectStack($value)
-    {
-        if ($value instanceof HasStackInformation) {
-            return $value->getObjectStack();
-        }
-
-        if ($this->chain->hasNext(__FUNCTION__)) {
-            return $this->chain->next(__FUNCTION__)->getObjectStack($value);
-        }
-
-        return array();
     }
 
     /**
