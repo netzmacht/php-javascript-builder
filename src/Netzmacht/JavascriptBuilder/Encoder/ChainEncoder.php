@@ -21,13 +21,6 @@ use Netzmacht\JavascriptBuilder\Encoder;
 class ChainEncoder implements Encoder, Chain
 {
     /**
-     * List of native values.
-     *
-     * @var array
-     */
-    private static $native = array('string', 'integer', 'double', 'NULL', 'boolean');
-
-    /**
      * Registered method subscribers.
      *
      * @var ChainNode[][]
@@ -70,13 +63,7 @@ class ChainEncoder implements Encoder, Chain
      */
     public function encodeValue($value, $flags = null)
     {
-        if (in_array(gettype($value), self::$native)) {
-            return $this->first('encodeScalar')->encodeScalar($value, $flags);
-        } elseif (is_array($value)) {
-            return $this->first('encodeArray')->encodeArray($value, $flags);
-        }
-
-        return $this->first('encodeObject')->encodeObject($value, $flags);
+        return ValueHelper::routeEncodeValue($this, $value, $flags);
     }
 
     /**

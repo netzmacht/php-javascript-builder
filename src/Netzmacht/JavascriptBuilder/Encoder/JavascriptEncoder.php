@@ -28,13 +28,6 @@ use Netzmacht\JavascriptBuilder\Flags;
 class JavascriptEncoder extends AbstractChainNode
 {
     /**
-     * List of native values.
-     *
-     * @var array
-     */
-    private static $native = array('string', 'integer', 'double', 'NULL', 'boolean');
-
-    /**
      * Json encoding flags.
      *
      * @var int
@@ -113,14 +106,7 @@ class JavascriptEncoder extends AbstractChainNode
      */
     public function encodeValue($value, $flags = null)
     {
-        if (in_array(gettype($value), self::$native)) {
-            // If we got a scalar value, just encode it.
-            return $this->chain->first('encodeScalar')->encodeScalar($value, $flags);
-        } elseif (is_array($value)) {
-            return $this->chain->first('encodeArray')->encodeArray($value, $flags);
-        }
-
-        return $this->chain->first('encodeObject')->encodeObject($value, $flags);
+        return ValueHelper::routeEncodeValue($this->chain, $value, $flags);
     }
 
     /**
@@ -132,7 +118,7 @@ class JavascriptEncoder extends AbstractChainNode
         $flags  = Flags::remove(Flags::CLOSE_STATEMENT, $flags);
 
         foreach ($arguments as $value) {
-            if (in_array($value, self::$native) || $value instanceof \JsonSerializable) {
+            if (ValueHelper::isScalar($value) || $value instanceof \JsonSerializable) {
                 $values[] = $this->chain->first('encodeScalar')->encodeScalar($value, $flags);
                 continue;
             }
