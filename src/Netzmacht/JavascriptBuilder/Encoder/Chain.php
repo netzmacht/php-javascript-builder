@@ -28,31 +28,35 @@ interface Chain
     public function getEncoder();
 
     /**
-     * Create the next subscriber.
+     * Call the next subscriber.
      *
-     * @param string $method The method name.
+     * @param ChainNode $current   The current chain node.
+     * @param string    $method    The method name.
+     * @param array     $arguments Method arguments.
      *
-     * @return ChainNode
+     * @return mixed
      */
-    public function next($method);
+    public function next(ChainNode $current, $method, array $arguments = array());
 
     /**
      * Check if an next entry exists for the method.
      *
-     * @param string $method The method name.
+     * @param ChainNode $current The current chain node.
+     * @param string    $method  The method name.
      *
      * @return bool
      */
-    public function hasNext($method);
+    public function hasNext(ChainNode $current, $method);
 
     /**
-     * Create the first subscriber.
+     * Call the first subscriber.
      *
-     * @param string $method The method name.
+     * @param string $method    The method name.
+     * @param array  $arguments Method arguments.
      *
-     * @return ChainNode
+     * @return mixed
      */
-    public function first($method);
+    public function first($method, array $arguments = array());
 
     /**
      * Force to jump to a specific item in the chain. Useful to reset if some sub calls are made.
@@ -60,7 +64,7 @@ interface Chain
      * @param string    $method     The method name.
      * @param ChainNode $subscriber The current subscriber.
      *
-     * @return ChainNode
+     * @return mixed
      */
     public function jumpTo($method, ChainNode $subscriber);
 }

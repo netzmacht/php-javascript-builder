@@ -60,7 +60,7 @@ class MultipleObjectsEncoder extends AbstractChainNode
             }
         }
 
-        return $this->chain->next(__FUNCTION__)->encodeValue($value, $flags);
+        return $this->chain->next($this, __FUNCTION__, [$value, $flags]);
     }
 
     /**
@@ -71,8 +71,6 @@ class MultipleObjectsEncoder extends AbstractChainNode
         $hash = $this->hash($value);
 
         if (!array_key_exists($hash, $this->values)) {
-            $next = $this->chain->next(__FUNCTION__);
-
             if (Flags::contains(Flags::BUILD_STACK, $flags)) {
                 $flags = Flags::remove(Flags::BUILD_STACK, $flags);
                 $flags = Flags::add(Flags::CLOSE_STATEMENT, $flags);
@@ -80,10 +78,8 @@ class MultipleObjectsEncoder extends AbstractChainNode
                 $this->buildStack($value, $flags);
             }
 
-            $this->chain->jumpTo(__FUNCTION__, $next);
-
             $this->values[$hash] = null;
-            $this->values[$hash] = $next->encodeObject($value, $flags);
+            $this->values[$hash] = $this->chain->next($this, __FUNCTION__, [$value, $flags]);
         }
 
         return $this->values[$hash];
@@ -102,7 +98,7 @@ class MultipleObjectsEncoder extends AbstractChainNode
         $encoder = $this->chain->getEncoder();
 
         if (!array_key_exists($hash, $this->references)) {
-            $this->references[$hash] = $this->chain->next(__FUNCTION__)->encodeReference($value);
+            $this->references[$hash] = $this->chain->next($this, __FUNCTION__, [$value]);
 
             if ($this->references[$hash] && !array_key_exists($hash, $this->values)) {
                 $encoder->getOutput()->append(

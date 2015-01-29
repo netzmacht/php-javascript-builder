@@ -39,7 +39,7 @@ class ChainEncoder implements Encoder, Chain
      */
     public function getOutput()
     {
-        return $this->first(__FUNCTION__)->getOutput();
+        return $this->first(__FUNCTION__);
     }
 
     /**
@@ -47,7 +47,7 @@ class ChainEncoder implements Encoder, Chain
      */
     public function setFlags($flags)
     {
-        return $this->first(__FUNCTION__)->setFlags($flags);
+        return $this->first(__FUNCTION__, [$flags]);
     }
 
     /**
@@ -55,7 +55,7 @@ class ChainEncoder implements Encoder, Chain
      */
     public function getFlags()
     {
-        return $this->first(__FUNCTION__)->getFlags();
+        return $this->first(__FUNCTION__);
     }
 
     /**
@@ -71,7 +71,7 @@ class ChainEncoder implements Encoder, Chain
      */
     public function encodeArguments(array $arguments, $flags = null)
     {
-        return $this->first(__FUNCTION__)->encodeArguments($arguments, $flags);
+        return $this->first(__FUNCTION__, [$arguments, $flags]);
     }
 
     /**
@@ -79,7 +79,7 @@ class ChainEncoder implements Encoder, Chain
      */
     public function encodeArray(array $data, $flags = null)
     {
-        return $this->first(__FUNCTION__)->encodeArray($data, $flags);
+        return $this->first(__FUNCTION__, [$data, $flags]);
     }
 
     /**
@@ -87,7 +87,7 @@ class ChainEncoder implements Encoder, Chain
      */
     public function encodeReference($value)
     {
-        return $this->first(__FUNCTION__)->encodeReference($value);
+        return $this->first(__FUNCTION__, [$value]);
     }
 
     /**
@@ -95,7 +95,7 @@ class ChainEncoder implements Encoder, Chain
      */
     public function encodeScalar($value, $flags = null)
     {
-        return $this->first(__FUNCTION__)->encodeScalar($value, $flags);
+        return $this->first(__FUNCTION__, [$value, $flags]);
     }
 
     /**
@@ -103,7 +103,7 @@ class ChainEncoder implements Encoder, Chain
      */
     public function encodeObject($value, $flags = null)
     {
-        return $this->first(__FUNCTION__)->encodeObject($value, $flags);
+        return $this->first(__FUNCTION__, [$value, $flags]);
     }
 
     /**
@@ -111,7 +111,7 @@ class ChainEncoder implements Encoder, Chain
      */
     public function close($flags)
     {
-        return $this->first(__FUNCTION__)->close($flags);
+        return $this->first(__FUNCTION__, [$flags]);
     }
 
     /**
@@ -119,7 +119,7 @@ class ChainEncoder implements Encoder, Chain
      */
     public function getObjectStack($value)
     {
-        return $this->first(__FUNCTION__)->getObjectStack($value);
+        return $this->first(__FUNCTION__, [$value]);
     }
 
     /**
@@ -153,49 +153,42 @@ class ChainEncoder implements Encoder, Chain
     /**
      * {@inheritdoc}
      */
-    public function next($method)
+    public function next(ChainNode $current, $method, array $arguments = array())
     {
-        if (!isset($this->current[$method])) {
-            return $this->first($method);
-        }
-
-        $index = ++$this->current[$method];
-
         $this->guardMethodExists($method);
-        $this->guardSubscriberExists($method, $index);
 
-        return $this->methods[$method][$index];
+        $index = array_search($current, $this->methods[$method]);
+        $this->guardSubscriberExists($method, ++$index);
+
+        return call_user_func_array([$this->methods[$method][$index], $method], $arguments);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function hasNext($method)
+    public function hasNext(ChainNode $current, $method)
     {
         if (empty($this->methods[$method])) {
             return false;
         }
 
-        if (array_key_exists($method, $this->current)) {
-            $key = ($this->current[$method] + 1);
-        } else {
-            $key = 0;
+        $index = array_search($current, $this->methods[$method]);
+        if ($index === false) {
+            return false;
         }
 
-        return isset($this->methods[$method][$key]);
+        return $index < count($this->methods[$method]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function first($method)
+    public function first($method, array $arguments = array())
     {
         $this->guardMethodExists($method);
         $this->guardSubscriberExists($method, 0);
 
-        $this->current[$method] = 0;
-
-        return $this->methods[$method][0];
+        return call_user_func_array([$this->methods[$method][0], $method], $arguments);
     }
 
     /**

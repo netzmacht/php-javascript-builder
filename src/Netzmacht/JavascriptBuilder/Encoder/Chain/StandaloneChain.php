@@ -55,15 +55,15 @@ class StandaloneChain implements Chain
     /**
      * {@inheritdoc}
      */
-    public function next($method, array $arguments = array())
+    public function next(ChainNode $current, $method, array $arguments = array())
     {
-        return $this->encoder;
+        return call_user_func_array([$this->encoder, $method], $arguments);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function hasNext($method)
+    public function hasNext(ChainNode $current, $method)
     {
         return true;
     }
@@ -71,9 +71,9 @@ class StandaloneChain implements Chain
     /**
      * {@inheritdoc}
      */
-    public function first($method)
+    public function first($method, array $arguments = array())
     {
-        return $this->encoder;
+        return call_user_func_array([$this->encoder, $method], $arguments);
     }
 
     /**

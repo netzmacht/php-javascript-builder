@@ -70,7 +70,7 @@ class EventDispatchingEncoder extends AbstractChainNode
             return $event->getResult();
         }
 
-        return $this->chain->next(__FUNCTION__)->encodeObject($value, $flags);
+        return $this->chain->next($this, __FUNCTION__, [$value, $flags]);
     }
 
     /**
@@ -89,7 +89,7 @@ class EventDispatchingEncoder extends AbstractChainNode
             return $event->getReference();
         }
 
-        return $this->chain->next(__FUNCTION__)->encodeReference($value);
+        return $this->chain->next($this, __FUNCTION__, [$value]);
     }
 
     /**
@@ -108,8 +108,8 @@ class EventDispatchingEncoder extends AbstractChainNode
             return $event->getStack();
         }
 
-        if ($this->chain->hasNext(__FUNCTION__)) {
-            return $this->chain->next(__FUNCTION__)->getObjectStack($value);
+        if ($this->chain->hasNext($this, __FUNCTION__)) {
+            return $this->chain->next($this, __FUNCTION__, [$value]);
         }
 
         return array();

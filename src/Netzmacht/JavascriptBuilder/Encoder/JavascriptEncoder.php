@@ -119,16 +119,16 @@ class JavascriptEncoder extends AbstractChainNode
 
         foreach ($arguments as $value) {
             if (ValueHelper::isScalar($value) || $value instanceof \JsonSerializable) {
-                $values[] = $this->chain->first('encodeScalar')->encodeScalar($value, $flags);
+                $values[] = $this->chain->first('encodeScalar', [$value, $flags]);
                 continue;
             }
 
-            $ref = $this->chain->first('encodeReference')->encodeReference($value);
+            $ref = $this->chain->first('encodeReference', [$value]);
 
             if ($ref) {
                 $values[] = $ref;
             } else {
-                $values[] = $this->chain->first('encodeValue')->encodeValue($value, $flags);
+                $values[] = $this->chain->first('encodeValue', [$value, $flags]);
             }
         }
 
@@ -149,8 +149,8 @@ class JavascriptEncoder extends AbstractChainNode
                 $buffer .= ', ';
             }
 
-            $value = $this->chain->first('encodeReference')->encodeReference($value)
-                ?: $this->chain->first('encodeValue')->encodeValue($value);
+            $value = $this->chain->first('encodeReference', [$value])
+                ?: $this->chain->first('encodeValue', [$value]);
 
             if (is_numeric($key)) {
                 $buffer .= $value;
@@ -196,7 +196,7 @@ class JavascriptEncoder extends AbstractChainNode
         if ($value instanceof ConvertsToJavascript) {
             return $value->encode($this->chain->getEncoder(), $flags);
         } elseif ($value instanceof \JsonSerializable) {
-            return $this->chain->first('encodeScalar')->encodeScalar($value, $flags);
+            return $this->chain->first('encodeScalar', [$value, $flags]);
         }
 
         throw new EncodeValueFailed($value);
@@ -223,8 +223,8 @@ class JavascriptEncoder extends AbstractChainNode
             return $value->getObjectStack();
         }
 
-        if ($this->chain->hasNext(__FUNCTION__)) {
-            return $this->chain->next(__FUNCTION__)->getObjectStack($value);
+        if ($this->chain->hasNext($this, __FUNCTION__)) {
+            return $this->chain->next($this, __FUNCTION__, [$value]);
         }
 
         return array();

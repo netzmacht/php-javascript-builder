@@ -38,12 +38,12 @@ class ValueHelper
     {
         if (static::isScalar($value)) {
             // If we got a scalar value, just encode it.
-            return $chain->first('encodeScalar')->encodeScalar($value, $flags);
+            return $chain->first('encodeScalar', [$value, $flags]);
         } elseif (is_array($value)) {
-            return $chain->first('encodeArray')->encodeArray($value, $flags);
+            return $chain->first('encodeArray', [$value, $flags]);
         }
 
-        return $chain->first('encodeObject')->encodeObject($value, $flags);
+        return $chain->first('encodeObject', [$value, $flags]);
     }
 
     /**
