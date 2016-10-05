@@ -17,6 +17,7 @@ use Netzmacht\JavascriptBuilder\Encoder;
  * Class ChainEncoder is an encoder who delegates all encoding requests to the used chain.
  *
  * @package Netzmacht\JavascriptBuilder\Encoder
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class ChainEncoder implements Encoder, Chain
 {
