@@ -171,7 +171,7 @@ class ChainEncoder implements Encoder, Chain
             return false;
         }
 
-        return $index < count($this->methods[$method]);
+        return ($index + 1) < count($this->methods[$method]);
     }
 
     /**
