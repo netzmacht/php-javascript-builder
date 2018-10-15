@@ -1,6 +1,7 @@
 /vendor/
 /bin/
 /demo/
+/.idea/
 
 coverage.xml
 

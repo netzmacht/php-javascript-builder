@@ -5,6 +5,8 @@ php:
   - "5.5"
   - "5.6"
   - "7.0"
+  - "7.1"
+  - "7.2"
   - "nightly"
 
 sudo: false
@@ -18,7 +20,6 @@ script: ant -keep-going
 
 matrix:
   allow_failures:
-    - php: "7.0"
     - php: "nightly"
 
 # Hack to make things work again - we can not use a shallow repository.
