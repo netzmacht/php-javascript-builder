@@ -104,7 +104,7 @@ class EventDispatchingEncoder extends AbstractChainNode
         $event = new GetObjectStackEvent($value);
         $this->eventDispatcher->dispatch($event::NAME, $event);
 
-        if ($event->getStack()) {
+        if ($event->hasStack()) {
             return $event->getStack();
         }
 

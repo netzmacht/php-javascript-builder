@@ -37,6 +37,13 @@ class GetObjectStackEvent extends Event
     private $stack = array();
 
     /**
+     * Successful state.
+     *
+     * @var bool
+     */
+    private $successful = false;
+
+    /**
      * Construct.
      *
      * @param mixed $value The value being built.
@@ -65,9 +72,20 @@ class GetObjectStackEvent extends Event
      */
     public function setStack($stack)
     {
-        $this->stack = $stack;
+        $this->stack      = $stack;
+        $this->successful = true;
 
         return $this;
+    }
+
+    /**
+     * Check if stack was set.
+     *
+     * @return bool
+     */
+    public function hasStack()
+    {
+        return $this->successful;
     }
 
     /**
