@@ -16,7 +16,7 @@
         "netzmacht/contao-build-tools": "~1.1",
         "phpspec/phpspec": "~2.1",
         "henrikbjorn/phpspec-code-coverage" : "~0.2",
-        "symfony/event-dispatcher": "~2.3"
+        "symfony/event-dispatcher": "~2.3 || ~3.0 || ~4.0"
     },
     "suggest": {
         "symfony/event-dispatcher": "Install the symfony event dispatcher to use the event dispatching encoder."
