@@ -12,14 +12,13 @@
 
 namespace Netzmacht\JavascriptBuilder\Encoder;
 
-use Netzmacht\JavascriptBuilder\Encoder;
 use Netzmacht\JavascriptBuilder\Encoder\Chain\StandaloneChain;
 use Netzmacht\JavascriptBuilder\Exception\EncodeValueFailed;
+use Netzmacht\JavascriptBuilder\Flags;
 use Netzmacht\JavascriptBuilder\Output;
+use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
 use Netzmacht\JavascriptBuilder\Type\HasStackInformation;
 use Netzmacht\JavascriptBuilder\Type\ReferencedByIdentifier;
-use Netzmacht\JavascriptBuilder\Type\ConvertsToJavascript;
-use Netzmacht\JavascriptBuilder\Flags;
 
 /**
  * Class Encoder provides methods to encode javascript for several input types.
@@ -190,6 +189,7 @@ class JavascriptEncoder extends AbstractChainNode
 
     /**
      * {@inheritdoc}
+     *
      * @throws EncodeValueFailed If a value could not being encoded.
      */
     public function encodeObject($value, $flags = null)
