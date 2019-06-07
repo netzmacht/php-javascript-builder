@@ -2,7 +2,7 @@
     "name": "netzmacht/php-javascript-builder",
     "description": "PHP Javascript builder library",
     "type": "library",
-    "license": "LGPL-3.0",
+    "license": "LGPL-3.0-or-later",
     "authors": [
         {
             "name": "David Molineus",
@@ -10,27 +10,25 @@
         }
     ],
     "require": {
-        "php": ">=5.4"
+        "php": ">=7.1"
     },
     "require-dev": {
-        "netzmacht/contao-build-tools": "~1.1",
-        "phpspec/phpspec": "~2.1",
-        "henrikbjorn/phpspec-code-coverage" : "~0.2",
+        "phpcq/all-tasks": "~1.2",
+        "phpspec/phpspec": "~4.0 || ~5.0",
         "symfony/event-dispatcher": "~2.3 || ~3.0 || ~4.0"
     },
     "suggest": {
         "symfony/event-dispatcher": "Install the symfony event dispatcher to use the event dispatching encoder."
     },
     "autoload": {
-        "psr-0": {
-            "Netzmacht\\Javascript": "src/"
+        "psr-4": {
+            "Netzmacht\\JavascriptBuilder\\": "src/"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "1.0.x-dev",
+            "dev-develop": "1.1.x-dev"
         }
-    },
-    "prefer-stable": true,
-    "minimum-stability": "dev"
+    }
 }
