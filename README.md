@@ -103,7 +103,7 @@ $factory    = function(Output $output) use ($dispatcher) {
     
     $encoder
         ->register(new ResultCacheEncoder())
-        ->register(new Netzmacht\JavascriptBuilder\Symfony\EventDispatchingEncoder())
+        ->register(new \EventDispatchingEncoder())
         ->register(new JavascriptEncoder($output));
     
     return $encoder;

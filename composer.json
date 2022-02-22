@@ -1,36 +1,36 @@
 {
-    "name": "netzmacht/php-javascript-builder",
-    "description": "PHP Javascript builder library",
-    "type": "library",
-    "license": "LGPL-3.0",
-    "authors": [
-        {
-            "name": "David Molineus",
-            "email": "david.molineus@netzmacht.de"
-        }
-    ],
-    "require": {
-        "php": ">=5.4"
-    },
-    "require-dev": {
-        "netzmacht/contao-build-tools": "~1.1",
-        "phpspec/phpspec": "~2.1",
-        "henrikbjorn/phpspec-code-coverage" : "~0.2",
-        "symfony/event-dispatcher": "~2.3 || ~3.0 || ~4.0"
-    },
-    "suggest": {
-        "symfony/event-dispatcher": "Install the symfony event dispatcher to use the event dispatching encoder."
-    },
-    "autoload": {
-        "psr-0": {
-            "Netzmacht\\Javascript": "src/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
-    },
-    "prefer-stable": true,
-    "minimum-stability": "dev"
+  "name": "netzmacht/php-javascript-builder",
+  "description": "PHP Javascript builder library",
+  "license": "LGPL-3.0",
+  "type": "library",
+  "authors": [
+    {
+      "name": "David Molineus",
+      "email": "david.molineus@netzmacht.de"
+    }
+  ],
+  "require": {
+    "php": "^7.1 || ^8.0",
+    "ext-ctype": "*",
+    "ext-json": "*",
+    "symfony/event-dispatcher-contracts": "^1.1 || ^2.0"
+  },
+  "require-dev": {
+    "phpcq/coding-standard": "^2.1",
+    "phpcq/runner-bootstrap": "^1.0@dev",
+    "phpspec/phpspec": "^6.0 || ^7.0"
+  },
+  "suggest": {
+    "symfony/event-dispatcher": "Install the symfony event dispatcher to use the event dispatching encoder."
+  },
+  "autoload": {
+    "psr-4": {
+      "Netzmacht\\JavascriptBuilder\\": "src/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
 }

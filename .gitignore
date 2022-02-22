@@ -1,8 +1,12 @@
-/vendor/
-/bin/
-/demo/
-/.idea/
-
-coverage.xml
-
+# composer related
+vendor/
 composer.lock
+
+# Translations
+.tx
+
+# PHPCQ
+.phpcq/*
+!.phpcq
+!.phpcq/local
+.phpcq.yaml
